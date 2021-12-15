@@ -1,0 +1,31 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 30, 2021, 7:52:55 PM
+    Author     : Lenovo
+*/
+
+GridPane{
+    -fx-background-color: lightblue;
+    -fx-padding: 15;
+}
+label{ 
+    -fx-font-size: 16;
+    -fx-text-fill: darkblue;
+    -fx-padding-left: 10;
+}
+
+Text.sub{
+    -fx-font-size: 36;
+    -fx-font-weight: bold;
+    -fx-fill: red;
+    -fx-stroke-width: 2;
+    -fx-stroke: darkblue;
+}
+Button.btr{
+    -fx-background-color: blueviolet;
+    -fx-text-fill: white;
+    -fx-min-width: 100;
+}
