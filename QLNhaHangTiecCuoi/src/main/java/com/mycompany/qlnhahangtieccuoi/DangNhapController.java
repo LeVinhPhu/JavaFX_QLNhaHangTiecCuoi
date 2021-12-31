@@ -4,11 +4,16 @@
  */
 package com.mycompany.qlnhahangtieccuoi;
 
+import com.mycompany.conf.Utils;
+import com.mycompany.services.KhachHangServices;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -29,8 +34,18 @@ public class DangNhapController implements Initializable {
     private TextField sdt;
     @FXML 
     private TextField mk;
+    @FXML
+    private Label kq;
     
-    public void DangNhapBtr(ActionEvent event){
-        
+    public void DangNhapBtr(ActionEvent event) throws SQLException{
+        String user  = this.sdt.getText();
+        String pass = this.mk.getText();
+        //Kiểm tra user có tồn tại ko
+        KhachHangServices kh = new KhachHangServices();
+        boolean kt = kh.KiemTraDangNhap(user, pass);
+        if (kt)
+            Utils.getBox("Đăng Nhập thành công", Alert.AlertType.INFORMATION).show();
+        else
+            Utils.getBox("Sai số điện thoại hoặc mật khẩu", Alert.AlertType.WARNING).show();
     }
 }

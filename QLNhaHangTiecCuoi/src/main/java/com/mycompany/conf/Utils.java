@@ -4,10 +4,17 @@
  */
 package com.mycompany.conf;
 
+import javafx.scene.control.Alert;
+
 /**
  *
  * @author Lenovo
  */
-public class demothu {
-    private int aiBiet;
+public class Utils {
+    public static Alert getBox (String content, Alert.AlertType type){
+        Alert alert = new Alert(type);
+        alert.setContentText(content);
+        
+        return alert;
+    }
 }
