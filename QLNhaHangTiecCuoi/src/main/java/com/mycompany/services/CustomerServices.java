@@ -5,26 +5,24 @@
 package com.mycompany.services;
 
 import com.mycompany.conf.JdbcUtils;
-import com.mycompany.pojo.KhachHang;
+import com.mycompany.pojo.Customers;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *
  * @author Lenovo
  */
-public class KhachHangServices {
+public class CustomerServices {
     public boolean KiemTraDangNhap(String sdt, String mk) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            PreparedStatement stm = conn.prepareStatement("SELECT MatKhau FROM khachhang WHERE SDT = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT Password FROM customers WHERE Phone = ?");
             stm.setString(1, sdt);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
-                String pass = rs.getString("MatKhau");
+                String pass = rs.getString("Password");
                 if (mk.equals(pass)== true)
                     return true;
             }
@@ -32,27 +30,25 @@ public class KhachHangServices {
         }
     }
     
-    public void DangKyKhachHang(KhachHang kh) throws SQLException{
+    public void DangKyKhachHang(Customers kh) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
             conn.setAutoCommit(false);
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO quanlynhahang.khachhang "
-                    + "(MaKH, Ho, Ten, NgaySinh, GioiTinh, DiaChi, SDT, MatKhau) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-            stm.setString(1, kh.getMaKH());
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO quanlydattiec.customers "
+                    + "(Phone, LastName, FirstName, Birthdate, Address, Password) "
+                    + "VALUES (?, ?, ?, ?, ?, ?);");
+            stm.setString(1, kh.getPhone());
             stm.setString(2, kh.getHoKH());
             stm.setString(3, kh.getTenKH());
             stm.setDate(4, kh.getNgaySinh());
-            stm.setString(5, kh.getGioiTinh());
-            stm.setString(6, kh.getDiaChi());
-            stm.setString(7, kh.getSdt());
-            stm.setString(8, kh.getMatKhau());
+            stm.setString(5, kh.getDiaChi());
+            stm.setString(6, kh.getMatKhau());
             stm.executeUpdate();
             conn.commit();
         }
     }
     public boolean TonTaiSDT(String sdt) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM khachhang WHERE SDT = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM customers WHERE Phone = ?");
             stm.setString(1, sdt);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){

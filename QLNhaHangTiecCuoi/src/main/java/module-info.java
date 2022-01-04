@@ -6,4 +6,5 @@ module com.mycompany.qlnhahangtieccuoi {
 
     opens com.mycompany.qlnhahangtieccuoi to javafx.fxml;
     exports com.mycompany.qlnhahangtieccuoi;
+    exports com.mycompany.pojo;
 }
