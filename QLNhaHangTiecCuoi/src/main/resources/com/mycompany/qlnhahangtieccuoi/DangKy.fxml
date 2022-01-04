@@ -20,7 +20,6 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -32,20 +31,20 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub" text="ĐĂNG KÝ" GridPane.columnSpan="3" GridPane.halignment="CENTER" />
       <Label text="Họ và tên đệm" GridPane.rowIndex="1" />
       <Label text="Tên" GridPane.rowIndex="2" />
-      <Label text="giới tính" GridPane.rowIndex="3" />
-      <Label text="Địa Chỉ" GridPane.rowIndex="4" />
-      <Label text="Ngày sinh" GridPane.rowIndex="5" />
-      <Label text="Số điện thoại" GridPane.rowIndex="6" />
-      <Label text="Mật khẩu" GridPane.rowIndex="7" />
-      <Label text="Nhập lại mật khẩu" GridPane.rowIndex="8" />
-      <Button mnemonicParsing="false" onAction="#DangKybtr" styleClass="btr" text="Đăng ký" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+      <Label text="Địa Chỉ" GridPane.rowIndex="3" />
+      <Label text="Ngày sinh" GridPane.rowIndex="4" />
+      <Label text="Số điện thoại" GridPane.rowIndex="5" />
+      <Label text="Mật khẩu" GridPane.rowIndex="6" />
+      <Label text="Nhập lại mật khẩu" GridPane.rowIndex="7" />
+      <Button mnemonicParsing="false" onAction="#DangKybtr" styleClass="btr" text="Đăng ký" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
       <TextField fx:id="ho" promptText="Nhập họ và tên" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="ten" promptText="Nhập tên" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="gioiTinh" promptText="Giới tính" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TextField fx:id="diaChi" promptText="Nhập địa chỉ" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <DatePicker fx:id="ns" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <TextField fx:id="sdt" promptText="nhập số điện thoại" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <PasswordField fx:id="matKhau" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <PasswordField fx:id="matKhau2" promptText="Nhập lại mật khẩu" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <TextField fx:id="diaChi" promptText="Nhập địa chỉ" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <DatePicker fx:id="ns" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField fx:id="sdt" promptText="nhập số điện thoại" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <PasswordField fx:id="matKhau" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <PasswordField fx:id="matKhau2" promptText="Nhập lại mật khẩu" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <Label fx:id="lb" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <Button mnemonicParsing="false" onAction="#demo" text="Button" GridPane.rowIndex="8" />
    </children>
 </GridPane>

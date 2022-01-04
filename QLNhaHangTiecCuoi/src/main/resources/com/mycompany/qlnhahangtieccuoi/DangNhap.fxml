@@ -22,15 +22,12 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Label GridPane.rowIndex="1" />
-      <Label text="MẬT KHẨU" GridPane.rowIndex="2" />
-      <TextField fx:id="sdt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <PasswordField fx:id="mk" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <Label GridPane.columnIndex="2" GridPane.rowIndex="1" />
-      <Label text="SĐT" GridPane.rowIndex="1" />
-      <Button mnemonicParsing="false" onAction="#DangNhapBtr" styleClass="btr" text="Đăng nhập" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub" text="ĐĂNG NHẬP" GridPane.columnSpan="3" GridPane.halignment="CENTER" />
-      <Label fx:id="kq" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label text="SĐT" GridPane.rowIndex="1" />
+      <Label text="MẬT KHẨU" GridPane.rowIndex="2" />
+      <TextField fx:id="sdt" styleClass="subDN" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <PasswordField fx:id="mk" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Button mnemonicParsing="false" onAction="#DangNhapBtr" styleClass="btr" text="Đăng nhập" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
       <Button mnemonicParsing="false" styleClass="btr" text="Đăng ký" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

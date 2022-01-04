@@ -7,6 +7,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : Lenovo
 */
 
+*{
+    -fx-font-family: Tahoma;  
+}
+
 GridPane{
     -fx-background-color: lightblue;
     -fx-padding: 15;
@@ -14,6 +18,11 @@ GridPane{
 label{ 
     -fx-font-size: 16;
     -fx-text-fill: darkblue;
+    -fx-padding-left: 10;
+}
+Label.SubDV{
+    -fx-font-size: 16;
+    -fx-text-fill: #ff6633;
     -fx-padding-left: 10;
 }
 
@@ -28,4 +37,32 @@ Button.btr{
     -fx-background-color: blueviolet;
     -fx-text-fill: white;
     -fx-min-width: 100;
+    -fx-font-size: 16;
+}
+
+VBox{
+    -fx-Background-color: lightblue;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+TextField.SubDV{
+    -fx-pref-height: 25;
+}
+TextField.subDN{
+    -fx-pref-height: 25;
+}
+TextField.Find{
+    -fx-pref-height: 25;
+}
+PasswordField{
+    -fx-pref-height: 25;
+}
+HBox{
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+HBox label.SubDK{
+    -fx-font-size: 20;
+    -fx-text-fill: darkblue;
 }

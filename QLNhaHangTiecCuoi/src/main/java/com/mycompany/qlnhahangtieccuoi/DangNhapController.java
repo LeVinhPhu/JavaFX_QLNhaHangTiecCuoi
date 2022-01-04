@@ -5,7 +5,7 @@
 package com.mycompany.qlnhahangtieccuoi;
 
 import com.mycompany.conf.Utils;
-import com.mycompany.services.KhachHangServices;
+import com.mycompany.services.CustomerServices;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -34,15 +34,13 @@ public class DangNhapController implements Initializable {
     private TextField sdt;
     @FXML 
     private TextField mk;
-    @FXML
-    private Label kq;
     
     public void DangNhapBtr(ActionEvent event) throws SQLException{
         String user  = this.sdt.getText();
         String pass = this.mk.getText();
         //Kiểm tra user có tồn tại ko
-        KhachHangServices kh = new KhachHangServices();
-        boolean kt = kh.KiemTraDangNhap(user, pass);
+        CustomerServices cus = new CustomerServices();
+        boolean kt = cus.KiemTraDangNhap(user, pass);
         if (kt)
             Utils.getBox("Đăng Nhập thành công", Alert.AlertType.INFORMATION).show();
         else

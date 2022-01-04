@@ -5,8 +5,8 @@
 package com.mycompany.qlnhahangtieccuoi;
 
 import com.mycompany.conf.Utils;
-import com.mycompany.pojo.KhachHang;
-import com.mycompany.services.KhachHangServices;
+import com.mycompany.pojo.Customers;
+import com.mycompany.services.CustomerServices;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -40,34 +41,39 @@ public class DangKyController implements Initializable {
     }    
     @FXML private TextField ho;
     @FXML private TextField ten;
-    @FXML private TextField gioiTinh;
     @FXML private TextField diaChi;
     @FXML private TextField sdt;
     @FXML private PasswordField matKhau;
     @FXML private PasswordField matKhau2;
     @FXML private DatePicker ns;
+    @FXML private Label lb;
     
+    public void demo(ActionEvent event){
+        ns.setValue(LocalDate.now());
+        String ngay = this.ns.getValue().toString();
+        lb.setText(ngay);
+    }
     public void DangKybtr(ActionEvent event) throws SQLException, ParseException{
         String hoKH = this.ho.getText();
         String tenKH = this.ten.getText();
         String SDT = this.sdt.getText();
-        String gt = this.gioiTinh.getText();
         String dc = this.diaChi.getText();
         String pass = this.matKhau.getText();
         String pass2 = this.matKhau2.getText();
-        DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
-        LocalDate localDate = this.ns.getValue();
-        Date ngaySinh = asDate(localDate);
-        String format = f.format(ngaySinh);
-        Date birthDate = f.parse(format);
+        ns.setValue(LocalDate.now());
+        String ngay = this.ns.getValue().toString();
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date ngaySinh = f.parse(ngay);
+        java.sql.Date sql = new java.sql.Date(ngaySinh.getTime()); 
+        //KhachHangServices kh = new KhachHangServices();
+        CustomerServices kh = new CustomerServices();
         if (pass.equals(pass2) == false)
             Utils.getBox("2 password không trùng nhau", Alert.AlertType.WARNING).show();        
-        KhachHangServices kh = new KhachHangServices();
-        if (kh.TonTaiSDT(SDT)){
+        else if (kh.TonTaiSDT(SDT)){
             Utils.getBox("Số điện thoại đã tồn tại", Alert.AlertType.WARNING).show();
         }
         else{
-            KhachHang k = new KhachHang(hoKH, tenKH, (java.sql.Date) birthDate, gt, dc, SDT, pass);
+            Customers k = new Customers(SDT, hoKH, tenKH, sql, dc, pass);
             kh.DangKyKhachHang(k);
             Utils.getBox("Đăng ký thành công", Alert.AlertType.INFORMATION).show();
         }  

@@ -10,47 +10,39 @@ import java.sql.Date;
  *
  * @author Lenovo
  */
-public class KhachHang {
-    private String maKH;
+public class Customers {
+    private String phone;
     private String hoKH;
     private String tenKH;
     private Date ngaySinh;
-    private String gioiTinh;
     private String diaChi;
-    private String sdt;
     private String matKhau;
-    private static int dem =0;
-    {
-        this.setMaKH(String.format("KH%3d", ++dem));
+
+    public Customers() {
     }
 
-    public KhachHang() {
-    }
-
-    public KhachHang(String hoKH, String tenKH, Date ngaySinh, String gioiTinh, String diaChi, String sdt, String matKhau) {
+    public Customers(String phone, String hoKH, String tenKH, Date ngaySinh, String diaChi, String matKhau) {
+        this.phone = phone;
         this.hoKH = hoKH;
         this.tenKH = tenKH;
         this.ngaySinh = ngaySinh;
-        this.gioiTinh = gioiTinh;
         this.diaChi = diaChi;
-        this.sdt = sdt;
         this.matKhau = matKhau;
     }
-    
-    
 
+    
     /**
-     * @return the maKH
+     * @return the phone
      */
-    public String getMaKH() {
-        return maKH;
+    public String getPhone() {
+        return phone;
     }
 
     /**
-     * @param maKH the maKH to set
+     * @param phone the phone to set
      */
-    public void setMaKH(String maKH) {
-        this.maKH = maKH;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     /**
@@ -96,20 +88,6 @@ public class KhachHang {
     }
 
     /**
-     * @return the gioiTinh
-     */
-    public String getGioiTinh() {
-        return gioiTinh;
-    }
-
-    /**
-     * @param gioiTinh the gioiTinh to set
-     */
-    public void setGioiTinh(String gioiTinh) {
-        this.gioiTinh = gioiTinh;
-    }
-
-    /**
      * @return the diaChi
      */
     public String getDiaChi() {
@@ -121,20 +99,6 @@ public class KhachHang {
      */
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
-    }
-
-    /**
-     * @return the sdt
-     */
-    public String getSdt() {
-        return sdt;
-    }
-
-    /**
-     * @param sdt the sdt to set
-     */
-    public void setSdt(String sdt) {
-        this.sdt = sdt;
     }
 
     /**
@@ -150,4 +114,5 @@ public class KhachHang {
     public void setMatKhau(String matKhau) {
         this.matKhau = matKhau;
     }
+
 }
