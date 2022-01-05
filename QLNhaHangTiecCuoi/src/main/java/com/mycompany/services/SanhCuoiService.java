@@ -5,7 +5,7 @@
 package com.mycompany.services;
 
 import com.mycompany.conf.JdbcUtils;
-import com.mycompany.pojo.Services;
+import com.mycompany.pojo.SanhCuoi;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,59 +17,63 @@ import java.util.List;
  *
  * @author Lenovo
  */
-public class DichVuServices {
-    public List<Services> getServices(String kw) throws SQLException{
-        List<Services> list = new ArrayList<>();
+public class SanhCuoiService {
+    public List<SanhCuoi> getSanhCuoiList(String kw) throws SQLException{
+        List<SanhCuoi> list = new ArrayList<>();
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "SELECT * FROM services";
+            String sql = "SELECT * FROM sanhcuoi ";
             if (kw != null && !kw.isEmpty())
-                sql += " WHERE serviceName LIKE CONCAT('%', ?, '%')";
+                sql += " WHERE SanhCuoiName LIKE CONCAT('%', ?, '%')";
             PreparedStatement stm = conn.prepareStatement(sql);
             if (kw != null && !kw.isEmpty())
                 stm.setString(1, kw);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
-                Services s = new Services(rs.getInt("serviceID"), rs.getString("serviceName"), rs.getDouble("unitPrice"));
+                SanhCuoi s = new SanhCuoi(rs.getInt("scID"), rs.getString("scName"), rs.getInt("soBanToiDa"), rs.getDouble("unitPrice"), rs.getString("notes"));
                 list.add(s);
             }
         }        
         return list;
     }
     
-    public void AddService(Services s) throws SQLException{        
+    public void AddSanhCuoi(SanhCuoi s) throws SQLException{        
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "INSERT INTO services (serviceName, unitPrice) "
-                + "VALUES (?, ?);";
+            String sql = "INSERT INTO sanhcuoi (SanhCuoiName, SoBanToiDa, unitPrice, Notes) "
+                    + "VALUES (?, ?, ?, ?);";
             PreparedStatement stm = conn.prepareStatement(sql);
-            stm.setString(1, s.getServiceName());
-            stm.setDouble(2, s.getUnitPrice());
+            stm.setString(1, s.getScName());
+            stm.setInt(2, s.getSoBanToiDa());
+            stm.setDouble(3, s.getUnitPrice());
+            stm.setString(4, s.getNotes());
             stm.executeUpdate();
         }
     }
-    public void UpdateService(int serviceID, String serviceName, double servicePrice) throws SQLException{
+    public void UpdateSanhCuoi(int scID, String scname, int sbtd, double unitPrice, String notes) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "UPDATE services SET serviceName = ?, unitPrice = ? "
-                    + "WHERE (serviceID = ?);";
+            String sql = "UPDATE sanhcuoi SET SanhCuoiName = ?, SoBanToiDa = ?, "
+                    + " unitPrice = ?, Notes = ? WHERE (SanhCuoiID = ?);";
             PreparedStatement stm = conn.prepareStatement(sql);
-            stm.setString(1, serviceName);
-            stm.setDouble(2, servicePrice);
-            stm.setInt(3, serviceID);
+            stm.setString(1, scname);
+            stm.setInt(2, sbtd);
+            stm.setDouble(3, unitPrice);
+            stm.setString(4, notes);
+            stm.setInt(5, scID);
             stm.executeUpdate();
         }
     }
-    public void DeleteService(int serviceID) throws SQLException{
+    public void DeleteSanhCuoi(int scID) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "DELETE FROM services WHERE (serviceID = ?);";
+            String sql = "DELETE FROM sanhcuoi WHERE (SanhCuoiID = ?);";
             PreparedStatement stm = conn.prepareStatement(sql);
-            stm.setInt(1, serviceID);
+            stm.setInt(1, scID);
             stm.executeUpdate();
         }
     }
-    public boolean kiemTraTonTai(String serName) throws SQLException{
+    public boolean kiemTraTonTai(String scName) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "SELECT COUNT(*) FROM services WHERE serviceName = ?";
+            String sql = "SELECT COUNT(*) FROM sanhcuoi WHERE SanhCuoiName = ?";
             PreparedStatement stm = conn.prepareStatement(sql);
-            stm.setString(1, serName);
+            stm.setString(1, scName);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
                 String kq = rs.getString(1);

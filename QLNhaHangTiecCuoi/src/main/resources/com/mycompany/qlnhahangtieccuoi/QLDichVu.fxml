@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="461.0" prefWidth="522.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.QLDichVuController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="522.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.QLDichVuController">
    <children>
       <HBox prefHeight="70.0" prefWidth="600.0">
          <children>
@@ -24,17 +24,22 @@
             <TextField fx:id="txtServicePrice" styleClass="SubDV" />
          </children>
       </HBox>
-      <TextField fx:id="txtKeyword" promptText="Enter Keyword" styleClass="Find" />
+      <HBox prefHeight="62.0" prefWidth="502.0">
+         <children>
+            <Label fx:id="lbMess" styleClass="SubMes" />
+         </children>
+      </HBox>
+      <TextField fx:id="txtKeyword" promptText="Enter Keyword" styleClass="SubDV" />
       <TableView fx:id="tbService" onMouseClicked="#handleClickTableView" prefHeight="260.0" prefWidth="600.0" />
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" styleClass="btr" text="Thêm ">
+            <Button mnemonicParsing="false" onAction="#BtrAddService" styleClass="btr" text="Thêm ">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button mnemonicParsing="false" styleClass="btr" text="Sửa" />
-            <Button mnemonicParsing="false" styleClass="btr" text="Xóa" />
+            <Button mnemonicParsing="false" onAction="#BtrUpdateService" styleClass="btr" text="Sửa" />
+            <Button mnemonicParsing="false" onAction="#BtrDeleteService" styleClass="btr" text="Xóa" />
          </children>
       </HBox>
    </children>
