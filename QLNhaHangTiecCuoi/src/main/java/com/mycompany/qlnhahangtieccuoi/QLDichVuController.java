@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -33,6 +34,7 @@ public class QLDichVuController implements Initializable {
     @FXML TextField txtKeyword;
     @FXML TextField txtServiceName;
     @FXML TextField txtServicePrice;
+    @FXML Label lbMess;
 
     /**
      * Initializes the controller class.
@@ -75,32 +77,62 @@ public class QLDichVuController implements Initializable {
         this.tbService.setItems(FXCollections.observableArrayList(s.getServices(kw)));
     }
     
+    @FXML
     private void BtrAddService(ActionEvent event) throws SQLException{
-        String serviceName = txtServiceName.getText();
-        double unitprice = Double.parseDouble(txtServicePrice.getText());
-        Services s = new Services(serviceName, unitprice);
-        DichVuServices dv = new DichVuServices();
-        dv.AddService(s);
-        LoadTableView();
-        Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
+        try{
+            String serviceName = txtServiceName.getText();
+            double unitprice = Double.parseDouble(txtServicePrice.getText());
+            Services s = new Services(serviceName, unitprice);
+            DichVuServices dv = new DichVuServices();
+            if (dv.kiemTraTonTai(serviceName)){
+                dv.AddService(s);
+                LoadTableData(null);
+                Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
+                init();
+            }
+            else
+                lbMess.setText("Món ăn đã tồn tại");
+        }catch(NullPointerException ex){
+            lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
+        }catch (NumberFormatException ex2){
+            lbMess.setText("Ô đơn giá phải nhập số");
+        }
     }
+    @FXML
     private void BtrUpdateService(ActionEvent event) throws SQLException{
         Services service = tbService.getSelectionModel().getSelectedItem();
-        int serID = service.getServiceID();
-        String serviceName = txtServiceName.getText();
-        double unitprice = Double.parseDouble(txtServicePrice.getText());
-        DichVuServices dv = new DichVuServices();
-        dv.UpdateService(serID, serviceName, unitprice);
-        LoadTableView();
-        Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+        if (service != null){
+            try{
+            int serID = service.getServiceID();
+            String serviceName = txtServiceName.getText();
+            double unitprice = Double.parseDouble(txtServicePrice.getText());
+            DichVuServices dv = new DichVuServices();
+            dv.UpdateService(serID, serviceName, unitprice);
+            LoadTableData(null);      
+            Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+            init();
+            }catch (NullPointerException ex){
+                lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
+            }catch (NumberFormatException ex2){
+                lbMess.setText("Ô đơn giá phải nhập số");
+            } 
+        }
+        else
+            lbMess.setText("Chưa chọn đối tượng để sửa");
     }
+    @FXML
     private void BtrDeleteService(ActionEvent event) throws SQLException{
         Services service = tbService.getSelectionModel().getSelectedItem();
-        int serID = service.getServiceID();
-        DichVuServices dv = new DichVuServices();
-        dv.DeleteService(serID);
-        LoadTableView();
-        Utils.getBox("Xoá thành công", Alert.AlertType.INFORMATION).show();
+        if (service != null){
+            int serID = service.getServiceID();
+            DichVuServices dv = new DichVuServices();
+            dv.DeleteService(serID);
+            LoadTableData(null);
+            Utils.getBox("Xoá thành công", Alert.AlertType.INFORMATION).show();
+            init();
+        }
+        else
+            lbMess.setText("Chưa chọn đối tượng để xoá");
     }
     
     @FXML
@@ -111,4 +143,11 @@ public class QLDichVuController implements Initializable {
             txtServicePrice.setText(String.valueOf(service.getUnitPrice()));
         }
     }
+    private void init(){
+        this.lbMess.setText(null);
+        this.txtKeyword.setText(null);
+        this.txtServiceName.setText(null);
+        this.txtServicePrice.setText(null);
+    }
+    
 }

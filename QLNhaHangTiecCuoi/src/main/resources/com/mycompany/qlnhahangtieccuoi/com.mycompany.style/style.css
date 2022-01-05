@@ -25,6 +25,11 @@ Label.SubDV{
     -fx-text-fill: #ff6633;
     -fx-padding-left: 10;
 }
+Label.SubMes{
+    -fx-font-size: 20;
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
 
 Text.sub{
     -fx-font-size: 36;
@@ -46,7 +51,7 @@ VBox{
     -fx-spacing: 10;
     -fx-alignment: CENTER;
 }
-TextField.SubDV{
+TextField.Sub{
     -fx-pref-height: 25;
 }
 TextField.subDN{
@@ -65,4 +70,7 @@ HBox{
 HBox label.SubDK{
     -fx-font-size: 20;
     -fx-text-fill: darkblue;
+}
+ComboBox {
+    -fx-pref-height: 25;
 }
