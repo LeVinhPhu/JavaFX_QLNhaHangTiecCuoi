@@ -29,7 +29,7 @@ public class SanhCuoiService {
                 stm.setString(1, kw);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
-                SanhCuoi s = new SanhCuoi(rs.getInt("scID"), rs.getString("scName"), rs.getInt("soBanToiDa"), rs.getDouble("unitPrice"), rs.getString("notes"));
+                SanhCuoi s = new SanhCuoi(rs.getInt("sanhCuoiID"), rs.getString("sanhCuoiName"), rs.getInt("soBanToiDa"), rs.getDouble("unitPrice"), rs.getString("notes"));
                 list.add(s);
             }
         }        
@@ -39,9 +39,9 @@ public class SanhCuoiService {
     public void AddSanhCuoi(SanhCuoi s) throws SQLException{        
         try(Connection conn = JdbcUtils.getConn()){
             String sql = "INSERT INTO sanhcuoi (SanhCuoiName, SoBanToiDa, unitPrice, Notes) "
-                    + "VALUES (?, ?, ?, ?);";
+                    + " VALUES (?, ?, ?, ?);";
             PreparedStatement stm = conn.prepareStatement(sql);
-            stm.setString(1, s.getScName());
+            stm.setString(1, s.getSanhCuoiName());
             stm.setInt(2, s.getSoBanToiDa());
             stm.setDouble(3, s.getUnitPrice());
             stm.setString(4, s.getNotes());

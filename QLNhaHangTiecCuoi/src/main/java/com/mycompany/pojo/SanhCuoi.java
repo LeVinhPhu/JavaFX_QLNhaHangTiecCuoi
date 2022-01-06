@@ -9,8 +9,8 @@ package com.mycompany.pojo;
  * @author Lenovo
  */
 public class SanhCuoi {
-    private int scID;
-    private String scName;
+    private int sanhCuoiID;
+    private String sanhCuoiName;
     private int soBanToiDa;
     private double unitPrice;
     private String notes;
@@ -19,15 +19,15 @@ public class SanhCuoi {
     }
 
     public SanhCuoi(int scID, String scName, int soBanToiDa, double unitPrice, String notes) {
-        this.scID = scID;
-        this.scName = scName;
+        this.sanhCuoiID = scID;
+        this.sanhCuoiName = scName;
         this.soBanToiDa = soBanToiDa;
         this.unitPrice = unitPrice;
         this.notes = notes;
     }
     
     public SanhCuoi(String scName, int soBanToiDa, double unitPrice, String notes) {
-        this.scName = scName;
+        this.sanhCuoiName = scName;
         this.soBanToiDa = soBanToiDa;
         this.unitPrice = unitPrice;
         this.notes = notes;
@@ -36,29 +36,29 @@ public class SanhCuoi {
     /**
      * @return the scID
      */
-    public int getScID() {
-        return scID;
+    public int getSanhCuoiID() {
+        return sanhCuoiID;
     }
 
     /**
      * @param scID the scID to set
      */
-    public void setScID(int scID) {
-        this.scID = scID;
+    public void setSanhCuoiID(int scID) {
+        this.sanhCuoiID = scID;
     }
 
     /**
      * @return the scName
      */
-    public String getScName() {
-        return scName;
+    public String getSanhCuoiName() {
+        return sanhCuoiName;
     }
 
     /**
      * @param scName the scName to set
      */
-    public void setScName(String scName) {
-        this.scName = scName;
+    public void setSanhCuoiName(String scName) {
+        this.sanhCuoiName = scName;
     }
 
     /**
