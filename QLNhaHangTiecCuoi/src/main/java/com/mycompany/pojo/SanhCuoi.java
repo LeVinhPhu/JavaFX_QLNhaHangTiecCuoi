@@ -4,6 +4,7 @@
  */
 package com.mycompany.pojo;
 
+
 /**
  *
  * @author Lenovo

@@ -4,6 +4,8 @@
  */
 package com.mycompany.pojo;
 
+import javafx.scene.control.CheckBox;
+
 /**
  *
  * @author Lenovo
@@ -12,6 +14,7 @@ public class Services {
     private int serviceID;
     private String serviceName;
     private double unitPrice;
+    private CheckBox select;
     
     public Services() {
     }
@@ -20,6 +23,8 @@ public class Services {
         this.serviceID = serviceID;
         this.serviceName = serviceName;
         this.unitPrice = unitPrice;
+        this.select = new CheckBox();
+        
     }
     public Services(String serviceName, double unitPrice) {
         this.serviceName = serviceName;
@@ -66,6 +71,14 @@ public class Services {
      */
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+    
+    public CheckBox getSelect(){
+        return select;
+    }
+    
+    public void setSelect(CheckBox select){
+        this.select = select;
     }
     
 }

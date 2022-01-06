@@ -12,9 +12,8 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +37,7 @@ public class DangKyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        init();
     }    
     @FXML private TextField ho;
     @FXML private TextField ten;
@@ -46,41 +46,66 @@ public class DangKyController implements Initializable {
     @FXML private PasswordField matKhau;
     @FXML private PasswordField matKhau2;
     @FXML private DatePicker ns;
-    @FXML private Label lb;
+    @FXML private Label lbMess;
     
-    public void demo(ActionEvent event){
-        ns.setValue(LocalDate.now());
-        String ngay = this.ns.getValue().toString();
-        lb.setText(ngay);
-    }
     public void DangKybtr(ActionEvent event) throws SQLException, ParseException{
-        String hoKH = this.ho.getText();
-        String tenKH = this.ten.getText();
-        String SDT = this.sdt.getText();
-        String dc = this.diaChi.getText();
-        String pass = this.matKhau.getText();
-        String pass2 = this.matKhau2.getText();
-        ns.setValue(LocalDate.now());
-        String ngay = this.ns.getValue().toString();
-        DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-        Date ngaySinh = f.parse(ngay);
-        java.sql.Date sql = new java.sql.Date(ngaySinh.getTime()); 
-        //KhachHangServices kh = new KhachHangServices();
-        CustomerServices kh = new CustomerServices();
-        if (pass.equals(pass2) == false)
-            Utils.getBox("2 password không trùng nhau", Alert.AlertType.WARNING).show();        
-        else if (kh.TonTaiSDT(SDT)){
-            Utils.getBox("Số điện thoại đã tồn tại", Alert.AlertType.WARNING).show();
+        try{
+            String hoKH = this.ho.getText();
+            if (hoKH == null){
+                this.ho.setStyle("-fx-border-color: red;");
+            } else this.ho.setStyle("-fx-border-color: green;");
+            String tenKH = this.ten.getText();
+            if (tenKH == null){
+                this.ten.setStyle("-fx-border-color: red;");
+            } else this.ten.setStyle("-fx-border-color: green;");
+            String SDT = this.sdt.getText();
+            String dc = this.diaChi.getText();
+            String pass = this.matKhau.getText();
+            String pass2 = this.matKhau2.getText();
+            double soDT = Double.parseDouble(SDT);
+            if (SDT == null || SDT.length() >10){
+                this.lbMess.setText("Số điện thoại không hợp lệ"); 
+                this.sdt.setStyle("-fx-border-color: red;");
+            }
+            //ns.setValue(LocalDate.now());
+            String ngay = this.ns.getValue().toString();
+            DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            Date ngaySinh = f.parse(ngay);
+            java.sql.Date birthdate = new java.sql.Date(ngaySinh.getTime());
+            CustomerServices kh = new CustomerServices();
+            if (pass.equals(pass2) == false){
+                this.lbMess.setText("2 mật khẩu không giống nhau"); 
+                this.matKhau2.setStyle("-fx-border-color: red;");
+                this.sdt.setStyle("-fx-border-color: black;");
+            } 
+            else if (kh.TonTaiSDT(SDT)){
+                this.lbMess.setText("Số điện thoại đã tồn tại");
+                this.sdt.setStyle("-fx-border-color: red;");
+                this.matKhau2.setStyle("-fx-border-color: black;");
+            }
+            else{
+                Customers k = new Customers(SDT, hoKH, tenKH, birthdate, dc, pass);
+                kh.DangKyKhachHang(k);
+                Utils.getBox("Đăng ký thành công", Alert.AlertType.INFORMATION).show();
+            }  
+        }catch (NullPointerException ex){
+            this.lbMess.setText("Phải điền đầy đủ các trường dữ liệu");
+        }catch (NumberFormatException ex2){
+            this.lbMess.setText("Số điện thoại không hợp lệ");
+            this.sdt.setStyle("-fx-border-color: red;");
         }
-        else{
-            Customers k = new Customers(SDT, hoKH, tenKH, sql, dc, pass);
-            kh.DangKyKhachHang(k);
-            Utils.getBox("Đăng ký thành công", Alert.AlertType.INFORMATION).show();
-        }  
     }
- 
-    public static Date asDate(LocalDate localDate) {
-    return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-  }
+
+    private void init(){
+        this.ho.setText(null);
+        this.ten.setText(null);
+        this.matKhau.setText(null);
+        this.matKhau2.setText(null);
+        this.sdt.setText(null);
+    }
+    private void KiemTraSDT(){
+        
+    }
+    
     
 }

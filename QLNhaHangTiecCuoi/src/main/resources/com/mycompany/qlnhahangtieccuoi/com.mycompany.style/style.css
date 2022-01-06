@@ -60,6 +60,9 @@ TextField.subDN{
 TextField.Find{
     -fx-pref-height: 25;
 }
+TextField.null{
+    -fx-border-color: red;
+}
 PasswordField{
     -fx-pref-height: 25;
 }

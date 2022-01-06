@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class CustomerServices {
     public boolean KiemTraDangNhap(String sdt, String mk) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            PreparedStatement stm = conn.prepareStatement("SELECT Password FROM customers WHERE Phone = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT Password FROM customers WHERE PhoneCustomer = ?");
             stm.setString(1, sdt);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
@@ -34,21 +34,21 @@ public class CustomerServices {
         try(Connection conn = JdbcUtils.getConn()){
             conn.setAutoCommit(false);
             PreparedStatement stm = conn.prepareStatement("INSERT INTO quanlydattiec.customers "
-                    + "(Phone, LastName, FirstName, Birthdate, Address, Password) "
+                    + "(PhoneCustomer, LastName, FirstName, Birthdate, Address, Password) "
                     + "VALUES (?, ?, ?, ?, ?, ?);");
-            stm.setString(1, kh.getPhone());
-            stm.setString(2, kh.getHoKH());
-            stm.setString(3, kh.getTenKH());
-            stm.setDate(4, kh.getNgaySinh());
-            stm.setString(5, kh.getDiaChi());
-            stm.setString(6, kh.getMatKhau());
+            stm.setString(1, kh.getPhoneCustomer());
+            stm.setString(2, kh.getLastName());
+            stm.setString(3, kh.getFirstName());
+            stm.setDate(4, kh.getBirthDate());
+            stm.setString(5, kh.getAddress());
+            stm.setString(6, kh.getPassword());
             stm.executeUpdate();
             conn.commit();
         }
     }
     public boolean TonTaiSDT(String sdt) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM customers WHERE Phone = ?");
+            PreparedStatement stm = conn.prepareStatement("SELECT COUNT(*) FROM customers WHERE PhoneCustomer = ?");
             stm.setString(1, sdt);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
