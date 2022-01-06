@@ -10,21 +10,21 @@ import java.sql.Date;
  *
  * @author Lenovo
  */
-public class Customers {
-    private int customerID;
-    private String phoneCustomer;
+public class Employees {
+    private int employeeID;
+    private String phoneEmployee;
     private String lastName;
     private String firstName;
     private Date birthDate;
     private String address;
     private String password;
 
-    public Customers() {
+    public Employees() {
     }
 
-    public Customers(int customerID, String phoneCustomer, String lastName, String firstName, Date birthDate, String address, String password) {
-        this.customerID = customerID;
-        this.phoneCustomer = phoneCustomer;
+    public Employees(int employeeID, String phoneEmployee, String lastName, String firstName, Date birthDate, String address, String password) {
+        this.employeeID = employeeID;
+        this.phoneEmployee = phoneEmployee;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDate = birthDate;
@@ -32,8 +32,8 @@ public class Customers {
         this.password = password;
     }
     
-    public Customers(String phoneCustomer, String lastName, String firstName, Date birthDate, String address, String password) {
-        this.phoneCustomer = phoneCustomer;
+    public Employees(String phoneEmployee, String lastName, String firstName, Date birthDate, String address, String password) {
+        this.phoneEmployee = phoneEmployee;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDate = birthDate;
@@ -43,31 +43,31 @@ public class Customers {
     
 
     /**
-     * @return the customerID
+     * @return the employeeID
      */
-    public int getCustomerID() {
-        return customerID;
+    public int getEmployeeID() {
+        return employeeID;
     }
 
     /**
-     * @param customerID the customerID to set
+     * @param employeeID the employeeID to set
      */
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setEmployeeID(int employeeID) {
+        this.employeeID = employeeID;
     }
 
     /**
-     * @return the phoneCustomer
+     * @return the phoneEmployee
      */
-    public String getPhoneCustomer() {
-        return phoneCustomer;
+    public String getPhoneEmployee() {
+        return phoneEmployee;
     }
 
     /**
-     * @param phoneCustomer the phoneCustomer to set
+     * @param phoneEmployee the phoneEmployee to set
      */
-    public void setPhoneCustomer(String phoneCustomer) {
-        this.phoneCustomer = phoneCustomer;
+    public void setPhoneEmployee(String phoneEmployee) {
+        this.phoneEmployee = phoneEmployee;
     }
 
     /**
@@ -139,7 +139,4 @@ public class Customers {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    
-
 }

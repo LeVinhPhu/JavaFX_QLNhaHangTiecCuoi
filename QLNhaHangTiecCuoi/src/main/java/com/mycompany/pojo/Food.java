@@ -4,6 +4,8 @@
  */
 package com.mycompany.pojo;
 
+import javafx.scene.control.CheckBox;
+
 /**
  *
  * @author Lenovo
@@ -14,6 +16,7 @@ public class Food {
     private double unitPrice;
     private int categotyID;
     private String notes;
+    private CheckBox select;
 
     public Food() {
     }
@@ -24,6 +27,7 @@ public class Food {
         this.unitPrice = unitPrice;
         this.categotyID = categotyID;
         this.notes = notes;
+        this.select = new CheckBox();
     }
 
     public Food(String dishName, double unitPrice, int categotyID, String notes) {
@@ -31,6 +35,7 @@ public class Food {
         this.unitPrice = unitPrice;
         this.categotyID = categotyID;
         this.notes = notes;
+        this.select = new CheckBox();
     }
     /**
      * @return the dishID
@@ -100,5 +105,13 @@ public class Food {
      */
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+    
+    public CheckBox getSelect(){
+        return select;
+    }
+    
+    public void setSelect(CheckBox select){
+        this.select = select;
     }
 }

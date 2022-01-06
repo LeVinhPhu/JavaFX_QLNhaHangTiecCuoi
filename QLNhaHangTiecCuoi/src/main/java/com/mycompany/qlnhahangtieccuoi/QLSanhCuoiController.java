@@ -61,10 +61,7 @@ public class QLSanhCuoiController implements Initializable {
         });
     }
 
-    private void LoadTableView(){        
-        TableColumn colID = new TableColumn("ID");
-        colID.setCellValueFactory(new PropertyValueFactory("sanhCuoiID"));
-        colID.setPrefWidth(200);
+    private void LoadTableView(){ 
         
         TableColumn colName = new TableColumn("Tên Sảnh cưới");
         colName.setCellValueFactory(new PropertyValueFactory("sanhCuoiName"));
@@ -78,11 +75,7 @@ public class QLSanhCuoiController implements Initializable {
         colPrice.setCellValueFactory(new PropertyValueFactory("unitPrice"));
         colPrice.setPrefWidth(100);
         
-        TableColumn colNote = new TableColumn("Ghi chú");
-        colNote.setCellValueFactory(new PropertyValueFactory("notes"));
-        colNote.setPrefWidth(100);
-        
-        this.tbSanhCuoi.getColumns().addAll(colID, colName, colNum, colPrice, colNote);
+        this.tbSanhCuoi.getColumns().addAll(colName, colNum, colPrice);
     }
     
     private void LoadTableData(String kw) throws SQLException{

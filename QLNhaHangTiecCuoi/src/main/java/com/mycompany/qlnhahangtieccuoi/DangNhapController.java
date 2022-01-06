@@ -30,10 +30,9 @@ public class DangNhapController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    @FXML 
-    private TextField sdt;
-    @FXML 
-    private TextField mk;
+    @FXML private TextField sdt;
+    @FXML private TextField mk;
+    @FXML private Label lbMess;
     
     public void DangNhapBtr(ActionEvent event) throws SQLException{
         String user  = this.sdt.getText();
@@ -43,7 +42,10 @@ public class DangNhapController implements Initializable {
         boolean kt = cus.KiemTraDangNhap(user, pass);
         if (kt)
             Utils.getBox("Đăng Nhập thành công", Alert.AlertType.INFORMATION).show();
-        else
-            Utils.getBox("Sai số điện thoại hoặc mật khẩu", Alert.AlertType.WARNING).show();
+        else{
+            lbMess.setText("Sai tên tài khoản hoặc mật khẩu");
+            this.sdt.setStyle("-fx-border-color: red;");
+            this.mk.setStyle("-fx-border-color: red;");
+        }
     }
 }
