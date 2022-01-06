@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="522.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.QLSanhCuoiController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="757.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.QLSanhCuoiController">
    <children>
       <HBox prefHeight="70.0" prefWidth="600.0">
          <children>
@@ -18,28 +18,36 @@
       </HBox>
       <HBox prefHeight="71.0" prefWidth="600.0">
          <children>
-            <Label styleClass="SubDV" text="Tên dịch vụ" />
-            <TextField styleClass="SubDV" />
+            <Label styleClass="SubDV" text="Tên sảnh cưới" />
+            <TextField fx:id="txtSCName" styleClass="SubDV" />
             <Label styleClass="SubDV" text="Đơn giá" />
-            <TextField styleClass="SubDV" />
+            <TextField fx:id="txtSCPrice" styleClass="SubDV" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label styleClass="SubDV" text="Số bàn tối đa" />
+            <TextField fx:id="txtSoBanToiDa" styleClass="SubDV" />
+            <Label styleClass="SubDV" text="Ghi chú" />
+            <TextField fx:id="txtNotes" styleClass="SubDV" />
          </children>
       </HBox>
       <HBox prefHeight="62.0" prefWidth="502.0">
          <children>
-            <Label styleClass="SubMes" />
+            <Label fx:id="lbMess" styleClass="SubMes" />
          </children>
       </HBox>
-      <TextField promptText="Enter Keyword" styleClass="SubDV" />
-      <TableView prefHeight="260.0" prefWidth="600.0" />
+      <TextField fx:id="txtKeyword" promptText="Enter Keyword" styleClass="SubDV" />
+      <TableView fx:id="tbSanhCuoi" onMouseClicked="#handleClickTableView" prefHeight="260.0" prefWidth="600.0" />
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" styleClass="btr" text="Thêm ">
+            <Button mnemonicParsing="false" onAction="#BtrAddSanhCuoi" styleClass="btr" text="Thêm ">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button mnemonicParsing="false" styleClass="btr" text="Sửa" />
-            <Button mnemonicParsing="false" styleClass="btr" text="Xóa" />
+            <Button mnemonicParsing="false" onAction="#BtrUpdateSanhCuoi" styleClass="btr" text="Sửa" />
+            <Button mnemonicParsing="false" onAction="#BtrDeleteSanhCuoi" styleClass="btr" text="Xóa" />
          </children>
       </HBox>
    </children>
