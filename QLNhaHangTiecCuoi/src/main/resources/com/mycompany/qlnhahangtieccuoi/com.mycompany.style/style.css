@@ -38,6 +38,11 @@ Text.sub{
     -fx-stroke-width: 2;
     -fx-stroke: darkblue;
 }
+Text.SubMes{
+    -fx-font-size: 16;
+    -fx-fill: green;
+    -fx-font-weight: bold;
+}
 Button.btr{
     -fx-background-color: blueviolet;
     -fx-text-fill: white;
@@ -58,7 +63,7 @@ TextField.subDN{
     -fx-pref-height: 25;
 }
 TextField.Find{
-    -fx-pref-height: 25;
+    -fx-pref-height: 35;
 }
 TextField.null{
     -fx-border-color: red;
@@ -76,4 +81,5 @@ HBox label.SubDK{
 }
 ComboBox {
     -fx-pref-height: 25;
+    -fx-text-alignment: center;
 }

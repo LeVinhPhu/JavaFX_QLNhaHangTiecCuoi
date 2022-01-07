@@ -13,6 +13,7 @@ public class OrderDetails {
     private int FoodID;
     private int SanhCuoiID;
     private int ServiceID;
+    private int soBan;
     private double UnitPrice;
     private double Discount;
     private int paid;
@@ -20,18 +21,18 @@ public class OrderDetails {
     public OrderDetails() {
     }
 
-    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, double UnitPrice, double Discount, int paid) {
+    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, int soBan, double UnitPrice, double Discount, int paid) {
         this.OrderID = OrderID;
         this.FoodID = FoodID;
         this.SanhCuoiID = SanhCuoiID;
         this.ServiceID = ServiceID;
+        this.soBan = soBan;
         this.UnitPrice = UnitPrice;
         this.Discount = Discount;
         this.paid = paid;
     }
     
     
-
     /**
      * @return the OrderID
      */
@@ -89,6 +90,20 @@ public class OrderDetails {
     }
 
     /**
+     * @return the soBan
+     */
+    public int getSoBan() {
+        return soBan;
+    }
+
+    /**
+     * @param soBan the soBan to set
+     */
+    public void setSoBan(int soBan) {
+        this.soBan = soBan;
+    }
+
+    /**
      * @return the UnitPrice
      */
     public double getUnitPrice() {
@@ -129,4 +144,6 @@ public class OrderDetails {
     public void setPaid(int paid) {
         this.paid = paid;
     }
+
+    
 }

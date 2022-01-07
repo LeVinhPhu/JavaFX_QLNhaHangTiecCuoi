@@ -24,6 +24,7 @@ public class Services {
         this.serviceName = serviceName;
         this.unitPrice = unitPrice;
         this.select = new CheckBox();
+        this.select.setDisable(true);
         
     }
     public Services(String serviceName, double unitPrice) {

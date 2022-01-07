@@ -28,6 +28,7 @@ public class Food {
         this.categotyID = categotyID;
         this.notes = notes;
         this.select = new CheckBox();
+        this.select.setDisable(true);
     }
 
     public Food(String dishName, double unitPrice, int categotyID, String notes) {
