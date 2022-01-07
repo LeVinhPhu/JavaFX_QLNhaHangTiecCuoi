@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
@@ -15,28 +16,45 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub" text="ĐẶT TIỆC" wrappingWidth="170.71875" />
       <HBox prefHeight="45.0" prefWidth="799.0">
          <children>
-            <Label prefHeight="20.0" prefWidth="126.0" styleClass="SubDV" text="Ngày tổ chức:">
-               <padding>
-                  <Insets left="24.0" />
-               </padding></Label>
-            <DatePicker />
+            <Label prefHeight="20.0" prefWidth="63.0" styleClass="SubDV" text="Sảnh: " textAlignment="RIGHT" />
+            <ComboBox fx:id="cbSanhCuoi" onAction="#EventComboBox" prefHeight="23.0" prefWidth="120.0" />
+            <Label styleClass="SubDV" text="Đơn giá bàn:" />
+            <Text fx:id="donGiaBan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="95.27929830551147" />
+            <Label styleClass="SubDV" text="Số lượng bàn tối đa:" />
+            <Text fx:id="slBanTD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="72.87926864624023" />
+         </children>
+      </HBox>
+      <HBox prefHeight="47.0" prefWidth="830.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="106.0" styleClass="SubDV" text="Ngày tổ chức:" />
+            <DatePicker fx:id="dayParty" prefHeight="23.0" prefWidth="130.0" />
+            <Label styleClass="SubDV" text="Số lượng bàn:" />
+            <TextField fx:id="txtSoBan" onKeyPressed="#restrictNumbersOnly" prefHeight="23.0" prefWidth="90.0" />
+            <Label styleClass="SubDV" text="Tổng tiền: " />
+            <Text fx:id="tongTien" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="87.27930068969727" />
+         </children>
+      </HBox>
+      <HBox prefHeight="57.0" prefWidth="830.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="179.0" styleClass="SubDV" text="Phương thức thanh toán:" />
+            <ComboBox fx:id="cbPhuongThucTT" prefHeight="26.0" prefWidth="165.0" />
+            <Label styleClass="SubDV" text="Tiền cần thanh toán: " />
+            <Text fx:id="tienThanhToan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="120.07934188842773" />
          </children>
       </HBox>
       <TextField fx:id="txtKeywordFood" promptText="Enter Keyword" styleClass="Sub" />
-      <TableView fx:id="tbFood" prefHeight="200.0" prefWidth="200.0" />
-      <TextField fx:id="txtKeywordSanhCuoi" promptText="Enter Keyword" styleClass="Sub" />
-      <TableView fx:id="tbSanhCuoi" prefHeight="200.0" prefWidth="200.0" />
+      <TableView fx:id="tbFood" onMouseClicked="#handleClickTableViewFood" prefHeight="200.0" prefWidth="200.0" />
       <TextField fx:id="txtKeywordService" promptText="Enter Keyword" styleClass="Sub" />
-      <TableView fx:id="tbService" prefHeight="200.0" prefWidth="200.0" />
+      <TableView fx:id="tbService" onMouseClicked="#handleClickTableViewService" prefHeight="200.0" prefWidth="200.0" />
       <HBox prefHeight="60.0" prefWidth="799.0">
          <children>
-            <Button mnemonicParsing="false" styleClass="btr" text="Thanh toán">
+            <Button mnemonicParsing="false" onAction="#BthThanhToan" styleClass="btr" text="Thanh toán">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button mnemonicParsing="false" styleClass="btr" text="Lưu" />
-            <Button mnemonicParsing="false" styleClass="btr" text="Huỷ" />
+            <Button mnemonicParsing="false" onAction="#BtdLuu" styleClass="btr" text="Lưu" />
+            <Button mnemonicParsing="false" onAction="#BtrHuy" styleClass="btr" text="Huỷ" />
          </children>
       </HBox>
    </children>

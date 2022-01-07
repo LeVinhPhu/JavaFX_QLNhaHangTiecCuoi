@@ -34,6 +34,12 @@ public class SanhCuoi {
         this.notes = notes;
     }
 
+    @Override
+    public String toString() {
+        return this.sanhCuoiName; //To change body of generated methods, choose Tools | Templates.
+    }
+    
+
     /**
      * @return the scID
      */
