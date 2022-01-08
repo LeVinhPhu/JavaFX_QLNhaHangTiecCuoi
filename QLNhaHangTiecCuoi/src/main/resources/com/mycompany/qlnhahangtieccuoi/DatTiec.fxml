@@ -16,30 +16,36 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub" text="ĐẶT TIỆC" wrappingWidth="170.71875" />
       <HBox prefHeight="45.0" prefWidth="799.0">
          <children>
-            <Label prefHeight="20.0" prefWidth="63.0" styleClass="SubDV" text="Sảnh: " textAlignment="RIGHT" />
-            <ComboBox fx:id="cbSanhCuoi" onAction="#EventComboBox" prefHeight="23.0" prefWidth="120.0" />
-            <Label styleClass="SubDV" text="Đơn giá bàn:" />
-            <Text fx:id="donGiaBan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="95.27929830551147" />
-            <Label styleClass="SubDV" text="Số lượng bàn tối đa:" />
-            <Text fx:id="slBanTD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="72.87926864624023" />
+            <Label prefHeight="20.0" prefWidth="106.0" styleClass="SubDV" text="Sảnh: " textAlignment="RIGHT">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Label>
+            <ComboBox fx:id="cbSanhCuoi" onAction="#EventComboBox" prefHeight="23.0" prefWidth="120.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></ComboBox>
+            <Label prefHeight="20.0" prefWidth="100.0" styleClass="SubDV" text="Đơn giá bàn:" />
+            <Text fx:id="donGiaBan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" wrappingWidth="100.0" />
+            <Label prefWidth="150.0" styleClass="SubDV" text="Số lượng bàn tối đa:" />
+            <Text fx:id="slBanTD" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" wrappingWidth="150.0" />
          </children>
       </HBox>
       <HBox prefHeight="47.0" prefWidth="830.0">
          <children>
             <Label prefHeight="20.0" prefWidth="106.0" styleClass="SubDV" text="Ngày tổ chức:" />
-            <DatePicker fx:id="dayParty" prefHeight="23.0" prefWidth="130.0" />
+            <DatePicker fx:id="dayParty" prefHeight="23.0" prefWidth="120.0" />
             <Label styleClass="SubDV" text="Số lượng bàn:" />
-            <TextField fx:id="txtSoBan" onKeyPressed="#restrictNumbersOnly" prefHeight="23.0" prefWidth="90.0" />
-            <Label styleClass="SubDV" text="Tổng tiền: " />
-            <Text fx:id="tongTien" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="87.27930068969727" />
+            <TextField fx:id="txtSoBan" onKeyPressed="#restrictNumbersOnly" prefHeight="23.0" prefWidth="100.0" />
+            <Label prefWidth="150.0" styleClass="SubDV" text="Tổng tiền: " />
+            <Text fx:id="tongTien" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" wrappingWidth="150.0" />
          </children>
       </HBox>
       <HBox prefHeight="57.0" prefWidth="830.0">
          <children>
-            <Label prefHeight="20.0" prefWidth="179.0" styleClass="SubDV" text="Phương thức thanh toán:" />
-            <ComboBox fx:id="cbPhuongThucTT" prefHeight="26.0" prefWidth="165.0" />
-            <Label styleClass="SubDV" text="Tiền cần thanh toán: " />
-            <Text fx:id="tienThanhToan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="###" wrappingWidth="120.07934188842773" />
+            <Label prefHeight="20.0" prefWidth="180.0" styleClass="SubDV" text="Phương thức thanh toán:" />
+            <ComboBox fx:id="cbPhuongThucTT" onAction="#EventTienThanhToan" prefHeight="26.0" prefWidth="165.0" />
+            <Label prefWidth="155.0" styleClass="SubDV" text="Tiền cần thanh toán: " />
+            <Text fx:id="tienThanhToan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="247.0" />
          </children>
       </HBox>
       <TextField fx:id="txtKeywordFood" promptText="Enter Keyword" styleClass="Sub" />
@@ -53,7 +59,6 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button mnemonicParsing="false" onAction="#BtdLuu" styleClass="btr" text="Lưu" />
             <Button mnemonicParsing="false" onAction="#BtrHuy" styleClass="btr" text="Huỷ" />
          </children>
       </HBox>
