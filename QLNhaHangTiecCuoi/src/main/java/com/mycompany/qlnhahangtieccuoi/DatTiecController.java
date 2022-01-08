@@ -96,7 +96,12 @@ public class DatTiecController implements Initializable {
             }
         });
         this.txtSoBan.textProperty().addListener((evt)->{
-            if (this.txtSoBan.getText().length() > 0){                
+            if (this.txtSoBan.getText().length() > 0){  
+                if (this.txtSoBan.getText().length() > 1){
+                    String zero = this.txtSoBan.getText().substring(0, 1);
+                    if ( zero.equals("0"))
+                        this.txtSoBan.setText(this.txtSoBan.getText().substring(1, txtSoBan.getText().length()));
+                }
                 int tableNum = Integer.parseInt(this.txtSoBan.getText());
                 if (tableNum > Integer.parseInt(this.slBanTD.getText())){
                     this.txtSoBan.setText(this.slBanTD.getText());
@@ -179,10 +184,9 @@ public class DatTiecController implements Initializable {
         }
         else{
             this.totalFoodAndService -= service.getUnitPrice();
-            if (totalFoodAndService > 0)
-                temp = totalCost - totalFoodAndService;
-            else
-                temp = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
+            if (totalFoodAndService <= 0)
+                totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
+            temp = totalFoodAndService + totalCost;
             this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
             getPaymentID();
         }
@@ -205,12 +209,9 @@ public class DatTiecController implements Initializable {
         }
         else{
             this.totalFoodAndService -= food.getUnitPrice();
-            if (totalFoodAndService > 0){
-                temp = totalCost - totalFoodAndService;
-                totalCost = temp;
-            }
-            else
+            if (totalFoodAndService <= 0)
                 totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
+            temp = totalFoodAndService + totalCost;
             this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
             getPaymentID();
         }
@@ -236,6 +237,7 @@ public class DatTiecController implements Initializable {
     @FXML
     private void EventComboBox(ActionEvent event){
         getSanhCuoiID();
+        getPaymentID();
     }
     
     private void getPaymentID(){
