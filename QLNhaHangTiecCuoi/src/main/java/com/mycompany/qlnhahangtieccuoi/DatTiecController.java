@@ -5,16 +5,27 @@
 package com.mycompany.qlnhahangtieccuoi;
 
 import com.mycompany.pojo.Food;
+import com.mycompany.pojo.OrderDetails;
+import com.mycompany.pojo.Orders;
 import com.mycompany.pojo.PaymentMethods;
 import com.mycompany.pojo.SanhCuoi;
 import com.mycompany.pojo.Services;
 import com.mycompany.services.DichVuServices;
 import com.mycompany.services.FoodService;
+import com.mycompany.services.OrderDetailsService;
+import com.mycompany.services.OrdersService;
 import com.mycompany.services.PaymentMethodService;
 import com.mycompany.services.SanhCuoiService;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +37,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,8 +64,11 @@ public class DatTiecController implements Initializable {
     @FXML private Text slBanTD; 
     @FXML private Text tienThanhToan; 
     @FXML private DatePicker dayParty;
+    @FXML private Label lbMess;
     private double totalFoodAndService;
     private double totalCost;
+    private List<Food> listFood;
+    private List<Services> listService;
     
     
     
@@ -63,11 +78,12 @@ public class DatTiecController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        //this.dayParty.setMinDate(System.currentTimeMillis() - 1000);
-        //this.dayParty.setDayCellFactory(cf -> new Min);
+        // TODO;
+        this.dayParty.setValue(LocalDate.now());
         DayLimit();
-        this.txtSoBan.setText(null);
+        this.txtSoBan.setText("0");
+        listFood = new ArrayList<>();
+        listService = new ArrayList<>();
         LoadTableViewService();
         LoadTableViewFood();
         SanhCuoiService sc = new SanhCuoiService();
@@ -168,71 +184,144 @@ public class DatTiecController implements Initializable {
     
     @FXML
     private void handleClickTableViewService(MouseEvent click){
-        Services service = this.tbService.getSelectionModel().getSelectedItem();
-        double temp;
-        if (service != null){
-            if (service.getSelect().isSelected())                
-                service.getSelect().setSelected(false);  //Chuyển trạng thái của checkbox                            
-            else
-                service.getSelect().setSelected(true); //Chuyển trạng thái của checkbox
-        }
-        if (service.getSelect().isSelected()){
-            this.totalFoodAndService += service.getUnitPrice();
-            temp = totalFoodAndService + totalCost;
-            this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
-            getPaymentID();            
-        }
-        else{
-            this.totalFoodAndService -= service.getUnitPrice();
-            if (totalFoodAndService <= 0)
-                totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
-            temp = totalFoodAndService + totalCost;
-            this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
-            getPaymentID();
-        }
+        try{
+            Services service = this.tbService.getSelectionModel().getSelectedItem();
+            double temp;
+            if (service != null){
+                if (service.getSelect().isSelected()){                
+                    service.getSelect().setSelected(false);  //Chuyển trạng thái của checkbox  
+                    listService.remove(service);
+                }
+                else{
+                    service.getSelect().setSelected(true);
+                    listService.add(service);
+                }
+            }            
+            if (service.getSelect().isSelected()){
+                this.totalFoodAndService += service.getUnitPrice();
+                temp = totalFoodAndService + totalCost;
+                this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
+                getPaymentID();                  
+            }
+            else{                
+                this.totalFoodAndService -= service.getUnitPrice();
+                if (totalFoodAndService <= 0)
+                    try{
+                        totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
+                    }catch (NumberFormatException ex){
+                        totalCost = 0;
+                    }
+                temp = totalFoodAndService + totalCost;
+                this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
+                getPaymentID();
+            }
+        }catch (NullPointerException ex){}
     }
     @FXML
     private void handleClickTableViewFood(MouseEvent click){ //chưa xửa xong
-        Food food = this.tbFood.getSelectionModel().getSelectedItem();
-        double temp = 0;
-        if (food != null){
-            if (food.getSelect().isSelected())                
-                food.getSelect().setSelected(false);  //Chuyển trạng thái của checkbox                            
-            else
-                food.getSelect().setSelected(true); //Chuyển trạng thái của checkbox
-        }
-        if (food.getSelect().isSelected()){
-            this.totalFoodAndService += food.getUnitPrice();
-            temp = totalFoodAndService + totalCost;
-            this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
-            getPaymentID();
-        }
-        else{
-            this.totalFoodAndService -= food.getUnitPrice();
-            if (totalFoodAndService <= 0)
-                totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
-            temp = totalFoodAndService + totalCost;
-            this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
-            getPaymentID();
-        }
+        try{
+            Food food = this.tbFood.getSelectionModel().getSelectedItem();
+            double temp = 0;
+            if (food != null){
+                if (food.getSelect().isSelected())                
+                    food.getSelect().setSelected(false);  //Chuyển trạng thái của checkbox                            
+                else
+                    food.getSelect().setSelected(true); //Chuyển trạng thái của checkbox
+            }
+            if (food.getSelect().isSelected()){
+                this.totalFoodAndService += food.getUnitPrice();
+                temp = totalFoodAndService + totalCost;
+                this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
+                getPaymentID();
+                listFood.add(food);
+            }
+            else{
+                listFood.remove(food);
+                this.totalFoodAndService -= food.getUnitPrice();
+                if (totalFoodAndService <= 0)
+                    try{
+                        totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
+                    }catch (NumberFormatException ex){
+                        totalCost = 0;
+                    }
+                temp = totalFoodAndService + totalCost;
+                this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
+                getPaymentID();
+            }
+        }catch(NullPointerException ex){};
     }
     
     @FXML
     private void BtrHuy(ActionEvent event){
-        
+        init();
     }
     @FXML
-    private void BthThanhToan (ActionEvent event){
+    private void BtrThanhToan (ActionEvent event) throws ParseException, SQLException{
+        //Cần xác định sảnh cưới, phương thức thanh toán
+        if (this.cbSanhCuoi.getValue() == null)
+            this.lbMess.setText("chưa chọn sảnh cưới");
+        else if (cbPhuongThucTT.getValue() == null)
+            this.lbMess.setText("Chưa chọn phương thức thanh toán");
+        else if (listFood.size() < 1 || listService.size() < 1)
+                    this.lbMess.setText("Phải chọn ít nhất 1 món ăn và 1 dịch vụ");
+        else { 
+            //Kiểm tra sảnh đã được đặt trước đó chưa
+            int scID = getSanhCuoiID();
+            String ngay = this.dayParty.getValue().toString();
+            DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            Date ngaySinh = f.parse(ngay);
+            java.sql.Date ngayDT = new java.sql.Date(ngaySinh.getTime());
+            OrderDetailsService oD = new OrderDetailsService();
+            for (int id : oD.getSCIDList(ngayDT)){
+                if (id == scID){
+                    this.lbMess.setText("Sảnh cưới này không còn trống!");
+                    scID = -1;
+                    break;
+                }
+            }
+            if (scID != -1){
+                //Tạo hoá đơn
+                int customerID = DangNhapController.cusID;
+                int paymentID = getPaymentID();
+                //lấy employeeID: 1 là quy định theo tháng, 2 là bỏ
+                int paid = paymentID == 1 ? 1 : 0;
+                Date ngayDD = Date.from(Instant.now());
+                java.sql.Date orderDate = new java.sql.Date(ngayDD.getTime());
+                Orders order = new Orders(customerID, orderDate, paid, paymentID);
+                OrdersService orderSer = new OrdersService();
+                orderSer.AddOrder(order);
+                //lấy mã đơn đặt hàng
+                int id = orderSer.getTheLargestOrderID();
+                //Tạo chi tiết đơn hàng
+                OrderDetailsService orderDetailsSer = new OrderDetailsService();
+                //nếu có nhiều hơn 2 dịch vụ hoặc 2 món ăn thì thêm tiếp
+                listFood.forEach(fo -> {
+                    listService.forEach(s -> {
+                    OrderDetails orderDetail = new OrderDetails(id, fo.getFoodID(), getSanhCuoiID(),
+                            s.getServiceID(), ngayDT, Integer.parseInt(this.txtSoBan.getText()), Double.parseDouble(tongTien.getText()));
+                        try {
+                            orderDetailsSer.AddOrderDetails(orderDetail);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(DatTiecController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                });
+                this.lbMess.setText("đặt thành công");                 
+            }
+        }
         
     }
     
-    private void getSanhCuoiID(){
+    private int getSanhCuoiID(){
+        int scID = 0;
         SanhCuoi sc = this.cbSanhCuoi.getSelectionModel().getSelectedItem();
         if (sc != null){
             this.donGiaBan.setText(String.valueOf(sc.getUnitPrice()));
             this.slBanTD.setText(String.valueOf(sc.getSoBanToiDa()));
             this.txtSoBan.setText(this.slBanTD.getText());
+            scID = sc.getSanhCuoiID();
         }
+        return scID;
     }
     @FXML
     private void EventComboBox(ActionEvent event){
@@ -240,11 +329,12 @@ public class DatTiecController implements Initializable {
         getPaymentID();
     }
     
-    private void getPaymentID(){
+    private int getPaymentID(){
+        int payID = 0;
         PaymentMethods pay = this.cbPhuongThucTT.getSelectionModel().getSelectedItem();
         if(this.cbSanhCuoi != null){
             if (pay != null){
-                int payID = pay.getPaymentID();
+                payID = pay.getPaymentID();
                 if (payID == 1){
                     this.tienThanhToan.setText(this.tongTien.getText());
                 }
@@ -255,6 +345,7 @@ public class DatTiecController implements Initializable {
                 }
             }
         }
+        return payID;
     }
     @FXML
     private void EventTienThanhToan(ActionEvent event){
@@ -274,8 +365,15 @@ public class DatTiecController implements Initializable {
         this.txtSoBan.setText("0");
         this.totalFoodAndService = 0;
         this.totalCost = 0;
-        this.txtKeywordFood.setText(null);
-        this.txtKeywordService.setText(null);
+        this.txtKeywordFood.setText("");
+        this.txtKeywordService.setText("");
+        this.donGiaBan.setText("0");
+        this.slBanTD.setText("0");
+        this.tongTien.setText("0");
+        this.tienThanhToan.setText("0");
+        this.cbPhuongThucTT.setValue(null);
+        this.cbSanhCuoi.setValue(null);
+        this.lbMess.setText("");
     }
 
     private class MinDateCell extends DateCell {

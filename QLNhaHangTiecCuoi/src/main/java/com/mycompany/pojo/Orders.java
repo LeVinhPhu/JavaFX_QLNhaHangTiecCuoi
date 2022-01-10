@@ -15,25 +15,34 @@ public class Orders {
     private int CustomerID;
     private int EmployeeID;
     private Date OrderDate;
-    private Date PartyDay;
+    private int paid;
+    private int paymentID;
 
     public Orders() {
     }
 
-    public Orders(int OrderID, int CustomerID, int EmployeeID, Date OrderDate, Date PartyDay) {
+    public Orders(int OrderID, int CustomerID, int EmployeeID, Date OrderDate, int paid, int paymentID) {
         this.OrderID = OrderID;
         this.CustomerID = CustomerID;
         this.EmployeeID = EmployeeID;
         this.OrderDate = OrderDate;
-        this.PartyDay = PartyDay;
+        this.paid = paid;
+        this.paymentID = paymentID;
     }
-    
-    public Orders(int CustomerID, int EmployeeID, Date OrderDate, Date PartyDay) {
+    public Orders(int CustomerID, int EmployeeID, Date OrderDate, int paid, int paymentID) {
         this.CustomerID = CustomerID;
         this.EmployeeID = EmployeeID;
         this.OrderDate = OrderDate;
-        this.PartyDay = PartyDay;
+        this.paid = paid;
+        this.paymentID = paymentID;
     }
+    public Orders(int CustomerID, Date OrderDate, int paid, int paymentID) {
+        this.CustomerID = CustomerID;
+        this.OrderDate = OrderDate;
+        this.paid = paid;
+        this.paymentID = paymentID;
+    }
+    
 
     /**
      * @return the OrderID
@@ -92,16 +101,30 @@ public class Orders {
     }
 
     /**
-     * @return the PartyDay
+     * @return the paid
      */
-    public Date getPartyDay() {
-        return PartyDay;
+    public int getPaid() {
+        return paid;
     }
 
     /**
-     * @param PartyDay the PartyDay to set
+     * @param paid the paid to set
      */
-    public void setPartyDay(Date PartyDay) {
-        this.PartyDay = PartyDay;
+    public void setPaid(int paid) {
+        this.paid = paid;
+    }
+
+    /**
+     * @return the paymentID
+     */
+    public int getPaymentID() {
+        return paymentID;
+    }
+
+    /**
+     * @param paymentID the paymentID to set
+     */
+    public void setPaymentID(int paymentID) {
+        this.paymentID = paymentID;
     }
 }

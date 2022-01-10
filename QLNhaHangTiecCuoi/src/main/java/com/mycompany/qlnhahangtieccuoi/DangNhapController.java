@@ -33,6 +33,7 @@ public class DangNhapController implements Initializable {
     @FXML private TextField sdt;
     @FXML private TextField mk;
     @FXML private Label lbMess;
+    public static int cusID = 5;
     
     public void DangNhapBtr(ActionEvent event) throws SQLException{
         String user  = this.sdt.getText();
@@ -40,8 +41,10 @@ public class DangNhapController implements Initializable {
         //Kiểm tra user có tồn tại ko
         CustomerServices cus = new CustomerServices();
         boolean kt = cus.KiemTraDangNhap(user, pass);
-        if (kt)
+        if (kt){
+            cusID = cus.getCustomerID(user);
             Utils.getBox("Đăng Nhập thành công", Alert.AlertType.INFORMATION).show();
+        }
         else{
             lbMess.setText("Sai tên tài khoản hoặc mật khẩu");
             this.sdt.setStyle("-fx-border-color: red;");

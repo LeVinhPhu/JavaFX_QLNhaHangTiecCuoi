@@ -59,4 +59,16 @@ public class CustomerServices {
             return true;              
         }
     }
+    public int getCustomerID(String sdt) throws SQLException{
+        int cusID = 0;
+        try(Connection conn = JdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement("SELECT CustomerID FROM customers WHERE PhoneCustomer = ?");
+            stm.setString(1, sdt);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()){
+                cusID = rs.getInt("CustomerID");                
+            }    
+            return cusID;
+        }
+    }
 }
