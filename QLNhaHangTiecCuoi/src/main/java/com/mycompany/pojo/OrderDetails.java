@@ -4,6 +4,8 @@
  */
 package com.mycompany.pojo;
 
+import java.sql.Date;
+
 /**
  *
  * @author Lenovo
@@ -13,24 +15,35 @@ public class OrderDetails {
     private int FoodID;
     private int SanhCuoiID;
     private int ServiceID;
+    private Date PartyDay;
     private int soBan;
     private double UnitPrice;
     private double Discount;
-    private int paid;
 
     public OrderDetails() {
     }
 
-    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, int soBan, double UnitPrice, double Discount, int paid) {
+    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, Date PartyDay, int soBan, double UnitPrice, double Discount) {
         this.OrderID = OrderID;
         this.FoodID = FoodID;
         this.SanhCuoiID = SanhCuoiID;
         this.ServiceID = ServiceID;
+        this.PartyDay = PartyDay;
         this.soBan = soBan;
         this.UnitPrice = UnitPrice;
         this.Discount = Discount;
-        this.paid = paid;
     }
+    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, Date PartyDay, int soBan, double UnitPrice) {
+        this.OrderID = OrderID;
+        this.FoodID = FoodID;
+        this.SanhCuoiID = SanhCuoiID;
+        this.ServiceID = ServiceID;
+        this.PartyDay = PartyDay;
+        this.soBan = soBan;
+        this.UnitPrice = UnitPrice;
+    }
+
+    
     
     
     /**
@@ -132,17 +145,17 @@ public class OrderDetails {
     }
 
     /**
-     * @return the paid
+     * @return the PartyDay
      */
-    public int getPaid() {
-        return paid;
+    public Date getPartyDay() {
+        return PartyDay;
     }
 
     /**
-     * @param paid the paid to set
+     * @param PartyDay the PartyDay to set
      */
-    public void setPaid(int paid) {
-        this.paid = paid;
+    public void setPartyDay(Date PartyDay) {
+        this.PartyDay = PartyDay;
     }
 
     
