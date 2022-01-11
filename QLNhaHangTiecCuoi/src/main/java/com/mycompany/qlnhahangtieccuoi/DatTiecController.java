@@ -59,14 +59,16 @@ public class DatTiecController implements Initializable {
     @FXML private TextField txtSoBan;
     @FXML private ComboBox<SanhCuoi> cbSanhCuoi;
     @FXML private ComboBox<PaymentMethods> cbPhuongThucTT;
+    @FXML private ComboBox<String> cbGioThue;
     @FXML private Text tongTien; 
     @FXML private Text donGiaBan; 
     @FXML private Text slBanTD; 
     @FXML private Text tienThanhToan; 
     @FXML private DatePicker dayParty;
     @FXML private Label lbMess;
-    private double totalFoodAndService;
+    private double totalService;
     private double totalCost;
+    private double totalFood;
     private List<Food> listFood;
     private List<Services> listService;
     
@@ -79,6 +81,7 @@ public class DatTiecController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO;
+        InitCbGioThue();
         this.dayParty.setValue(LocalDate.now());
         DayLimit();
         this.txtSoBan.setText("0");
@@ -123,12 +126,12 @@ public class DatTiecController implements Initializable {
                     this.txtSoBan.setText(this.slBanTD.getText());
                     tableNum = Integer.parseInt(this.slBanTD.getText());;
                 }                    
-                totalCost = totalFoodAndService + tableNum * Double.parseDouble(this.donGiaBan.getText());
+                totalCost = totalService + (tableNum * Double.parseDouble(this.donGiaBan.getText())) + (totalFood * Double.parseDouble(txtSoBan.getText()));;
                 this.tongTien.setText(String.valueOf(String.format("%.0f", totalCost)));
             } 
             else{
                 this.txtSoBan.setText("0");
-                this.tongTien.setText(String.valueOf(totalFoodAndService));
+                this.tongTien.setText(String.valueOf(totalService));
             }
 
         
@@ -198,20 +201,20 @@ public class DatTiecController implements Initializable {
                 }
             }            
             if (service.getSelect().isSelected()){
-                this.totalFoodAndService += service.getUnitPrice();
-                temp = totalFoodAndService + totalCost;
+                this.totalService += service.getUnitPrice();
+                temp = totalService + totalCost + (totalFood * Double.parseDouble(txtSoBan.getText()));
                 this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
                 getPaymentID();                  
             }
             else{                
-                this.totalFoodAndService -= service.getUnitPrice();
-                if (totalFoodAndService <= 0)
+                this.totalService -= service.getUnitPrice();
+                if (totalService <= 0 && totalFood <= 0)
                     try{
                         totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
                     }catch (NumberFormatException ex){
                         totalCost = 0;
                     }
-                temp = totalFoodAndService + totalCost;
+                temp = totalService + totalCost + (totalFood * Double.parseDouble(txtSoBan.getText()));
                 this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
                 getPaymentID();
             }
@@ -229,22 +232,24 @@ public class DatTiecController implements Initializable {
                     food.getSelect().setSelected(true); //Chuyển trạng thái của checkbox
             }
             if (food.getSelect().isSelected()){
-                this.totalFoodAndService += food.getUnitPrice();
-                temp = totalFoodAndService + totalCost;
+                //this.totalService += food.getUnitPrice();
+                this.totalFood += food.getUnitPrice();
+                temp = totalService + totalCost + (totalFood * Double.parseDouble(txtSoBan.getText()));
                 this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
                 getPaymentID();
                 listFood.add(food);
             }
             else{
                 listFood.remove(food);
-                this.totalFoodAndService -= food.getUnitPrice();
-                if (totalFoodAndService <= 0)
+                //this.totalService -= food.getUnitPrice();
+                this.totalFood -= food.getUnitPrice();
+                if (totalService <= 0 && totalFood <= 0)
                     try{
                         totalCost = Integer.parseInt(this.txtSoBan.getText()) * Double.parseDouble(this.donGiaBan.getText());
                     }catch (NumberFormatException ex){
                         totalCost = 0;
                     }
-                temp = totalFoodAndService + totalCost;
+                temp = totalService + totalCost + (totalFood * Double.parseDouble(txtSoBan.getText()));
                 this.tongTien.setText(String.valueOf(String.format("%.0f", temp)));
                 getPaymentID();
             }
@@ -260,6 +265,9 @@ public class DatTiecController implements Initializable {
         //Cần xác định sảnh cưới, phương thức thanh toán
         if (this.cbSanhCuoi.getValue() == null)
             this.lbMess.setText("chưa chọn sảnh cưới");
+        else if(this.txtSoBan.getText().equals("0")){
+            this.lbMess.setText("số lượng bàn phải lớn hơn 0");
+        }
         else if (cbPhuongThucTT.getValue() == null)
             this.lbMess.setText("Chưa chọn phương thức thanh toán");
         else if (listFood.size() < 1 || listService.size() < 1)
@@ -267,12 +275,13 @@ public class DatTiecController implements Initializable {
         else { 
             //Kiểm tra sảnh đã được đặt trước đó chưa
             int scID = getSanhCuoiID();
+            String rentalPeriod = this.cbGioThue.getValue();
             String ngay = this.dayParty.getValue().toString();
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
             Date ngaySinh = f.parse(ngay);
             java.sql.Date ngayDT = new java.sql.Date(ngaySinh.getTime());
             OrderDetailsService oD = new OrderDetailsService();
-            for (int id : oD.getSCIDList(ngayDT)){
+            for (int id : oD.getSCIDList(ngayDT, rentalPeriod)){
                 if (id == scID){
                     this.lbMess.setText("Sảnh cưới này không còn trống!");
                     scID = -1;
@@ -298,15 +307,16 @@ public class DatTiecController implements Initializable {
                 listFood.forEach(fo -> {
                     listService.forEach(s -> {
                     OrderDetails orderDetail = new OrderDetails(id, fo.getFoodID(), getSanhCuoiID(),
-                            s.getServiceID(), ngayDT, Integer.parseInt(this.txtSoBan.getText()), Double.parseDouble(tongTien.getText()));
+                            s.getServiceID(), ngayDT, rentalPeriod, Integer.parseInt(this.txtSoBan.getText()), Double.parseDouble(tongTien.getText()));
                         try {
                             orderDetailsSer.AddOrderDetails(orderDetail);
                         } catch (SQLException ex) {
                             Logger.getLogger(DatTiecController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     });
-                });
-                this.lbMess.setText("đặt thành công");                 
+                });                  
+                init();
+                this.lbMess.setText("đặt thành công"); 
             }
         }
         
@@ -363,7 +373,8 @@ public class DatTiecController implements Initializable {
     
     private void init(){
         this.txtSoBan.setText("0");
-        this.totalFoodAndService = 0;
+        this.totalService = 0;
+        this.totalFood = 0;
         this.totalCost = 0;
         this.txtKeywordFood.setText("");
         this.txtKeywordService.setText("");
@@ -373,7 +384,14 @@ public class DatTiecController implements Initializable {
         this.tienThanhToan.setText("0");
         this.cbPhuongThucTT.setValue(null);
         this.cbSanhCuoi.setValue(null);
+        this.cbGioThue.setValue("Sáng");
         this.lbMess.setText("");
+    }
+    private void InitCbGioThue(){
+        this.cbGioThue.getItems().add("Sáng");
+        this.cbGioThue.getItems().add("Trưa");
+        this.cbGioThue.getItems().add("Tối");
+        this.cbGioThue.setValue("Sáng");
     }
 
     private class MinDateCell extends DateCell {

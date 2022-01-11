@@ -21,12 +21,13 @@ import java.util.List;
  * @author Lenovo
  */
 public class OrderDetailsService {
-    public List<Integer> getSCIDList(Date partyDay) throws SQLException{
+    public List<Integer> getSCIDList(Date partyDay, String RentalPeriod) throws SQLException{
         List<Integer> SCList = new ArrayList<>();
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "SELECT * FROM orderdetails where partyday = ? ";
+            String sql = "SELECT SanhCuoiID FROM orderdetails where partyday = ? AND RentalPeriod = ? ";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setDate(1, partyDay);
+            stm.setString(2, RentalPeriod);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
                 int sc = rs.getInt("SanhCuoiID");
@@ -38,16 +39,17 @@ public class OrderDetailsService {
     
     public void AddOrderDetails(OrderDetails orDe) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "INSERT INTO orderdetails (OrderID, FoodID, SanhCuoiID, ServiceID, PartyDay, soBan, UnitPrice) "
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO orderdetails (OrderID, FoodID, SanhCuoiID, ServiceID, PartyDay, RentalPeriod, soBan, UnitPrice) "
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, orDe.getOrderID());
             stm.setInt(2, orDe.getFoodID());
             stm.setInt(3, orDe.getSanhCuoiID());
             stm.setInt(4, orDe.getServiceID());
             stm.setDate(5, orDe.getPartyDay());
-            stm.setInt(6, orDe.getSoBan());
-            stm.setDouble(7, orDe.getUnitPrice());
+            stm.setString(6, orDe.getRentalPeriod());
+            stm.setInt(7, orDe.getSoBan());
+            stm.setDouble(8, orDe.getUnitPrice());
             stm.executeUpdate();
         }
     }

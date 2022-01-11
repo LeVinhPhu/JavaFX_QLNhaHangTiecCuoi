@@ -71,7 +71,7 @@ TextField.null{
 PasswordField{
     -fx-pref-height: 25;
 }
-HBox{
+HBox, VBox{
     -fx-spacing: 10;
     -fx-alignment: CENTER;
 }
