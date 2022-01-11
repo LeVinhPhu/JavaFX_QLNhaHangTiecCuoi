@@ -29,6 +29,7 @@ public class Orders {
         this.paid = paid;
         this.paymentID = paymentID;
     }
+
     public Orders(int CustomerID, int EmployeeID, Date OrderDate, int paid, int paymentID) {
         this.CustomerID = CustomerID;
         this.EmployeeID = EmployeeID;
@@ -36,6 +37,7 @@ public class Orders {
         this.paid = paid;
         this.paymentID = paymentID;
     }
+    
     public Orders(int CustomerID, Date OrderDate, int paid, int paymentID) {
         this.CustomerID = CustomerID;
         this.OrderDate = OrderDate;

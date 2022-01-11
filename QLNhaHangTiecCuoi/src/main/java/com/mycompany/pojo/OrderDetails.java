@@ -16,6 +16,7 @@ public class OrderDetails {
     private int SanhCuoiID;
     private int ServiceID;
     private Date PartyDay;
+    private String RentalPeriod;
     private int soBan;
     private double UnitPrice;
     private double Discount;
@@ -23,22 +24,25 @@ public class OrderDetails {
     public OrderDetails() {
     }
 
-    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, Date PartyDay, int soBan, double UnitPrice, double Discount) {
+    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, Date PartyDay, String RentalPeriod, int soBan, double UnitPrice, double Discount) {
         this.OrderID = OrderID;
         this.FoodID = FoodID;
         this.SanhCuoiID = SanhCuoiID;
         this.ServiceID = ServiceID;
         this.PartyDay = PartyDay;
+        this.RentalPeriod = RentalPeriod;
         this.soBan = soBan;
         this.UnitPrice = UnitPrice;
         this.Discount = Discount;
     }
-    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, Date PartyDay, int soBan, double UnitPrice) {
+
+    public OrderDetails(int OrderID, int FoodID, int SanhCuoiID, int ServiceID, Date PartyDay, String RentalPeriod, int soBan, double UnitPrice) {
         this.OrderID = OrderID;
         this.FoodID = FoodID;
         this.SanhCuoiID = SanhCuoiID;
         this.ServiceID = ServiceID;
         this.PartyDay = PartyDay;
+        this.RentalPeriod = RentalPeriod;
         this.soBan = soBan;
         this.UnitPrice = UnitPrice;
     }
@@ -156,6 +160,20 @@ public class OrderDetails {
      */
     public void setPartyDay(Date PartyDay) {
         this.PartyDay = PartyDay;
+    }
+
+    /**
+     * @return the RentalPeriod
+     */
+    public String getRentalPeriod() {
+        return RentalPeriod;
+    }
+
+    /**
+     * @param RentalPeriod the RentalPeriod to set
+     */
+    public void setRentalPeriod(String RentalPeriod) {
+        this.RentalPeriod = RentalPeriod;
     }
 
     
