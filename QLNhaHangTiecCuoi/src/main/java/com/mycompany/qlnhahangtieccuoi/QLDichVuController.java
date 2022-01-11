@@ -9,6 +9,7 @@ import com.mycompany.pojo.Services;
 import com.mycompany.services.DichVuServices;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -44,6 +46,7 @@ public class QLDichVuController implements Initializable {
     @Override
         public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        init();
         LoadTableView();
         try {
             LoadTableData(null);
@@ -92,10 +95,10 @@ public class QLDichVuController implements Initializable {
             }
             else
                 lbMess.setText("Món ăn đã tồn tại");
-        }catch(NullPointerException ex){
-            lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
         }catch (NumberFormatException ex2){
             lbMess.setText("Ô đơn giá phải nhập số");
+        }catch(SQLIntegrityConstraintViolationException ex3){
+            lbMess.setText("Bạn phải điền đủ các ô dữ liệu");
         }
     }
     @FXML
@@ -110,9 +113,7 @@ public class QLDichVuController implements Initializable {
             dv.UpdateService(serID, serviceName, unitprice);
             LoadTableData(null);      
             Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
-            init();
-            }catch (NullPointerException ex){
-                lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
+            init();           
             }catch (NumberFormatException ex2){
                 lbMess.setText("Ô đơn giá phải nhập số");
             } 
@@ -147,7 +148,15 @@ public class QLDichVuController implements Initializable {
         this.lbMess.setText(null);
         this.txtKeyword.setText(null);
         this.txtServiceName.setText(null);
-        this.txtServicePrice.setText(null);
+        this.txtServicePrice.setText("0");
     }
     
+    @FXML
+    private void restrictNumbersOnly(KeyEvent keyEvent) {
+        this.txtServicePrice.textProperty().addListener((observable, oldValue, newValue) -> {
+        if (!newValue.matches("\\d*")) {
+            txtServicePrice.setText(newValue.replaceAll("[^\\d]", ""));
+        }
+    });
+    }
 }

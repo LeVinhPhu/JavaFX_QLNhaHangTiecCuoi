@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="522.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.QLDichVuController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="545.0" prefWidth="522.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.QLDichVuController">
    <children>
       <HBox prefHeight="70.0" prefWidth="600.0">
          <children>
@@ -21,7 +21,7 @@
             <Label styleClass="SubDV" text="Tên dịch vụ" />
             <TextField fx:id="txtServiceName" styleClass="SubDV" />
             <Label styleClass="SubDV" text="Đơn giá" />
-            <TextField fx:id="txtServicePrice" styleClass="SubDV" />
+            <TextField fx:id="txtServicePrice" onKeyPressed="#restrictNumbersOnly" styleClass="SubDV" />
          </children>
       </HBox>
       <HBox prefHeight="62.0" prefWidth="502.0">

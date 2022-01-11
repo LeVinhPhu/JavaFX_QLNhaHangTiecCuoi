@@ -42,9 +42,10 @@
       <TextField fx:id="ten" promptText="Nhập tên" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <TextField fx:id="diaChi" promptText="Nhập địa chỉ" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <DatePicker fx:id="ns" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <TextField fx:id="sdt" promptText="nhập số điện thoại" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <TextField fx:id="sdt" onKeyPressed="#restrictNumbersOnly" promptText="nhập số điện thoại" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <PasswordField fx:id="matKhau" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <PasswordField fx:id="matKhau2" promptText="Nhập lại mật khẩu" GridPane.columnIndex="1" GridPane.rowIndex="7" />
       <Label fx:id="lbMess" prefHeight="26.0" prefWidth="399.0" styleClass="SubMes" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+      <Button mnemonicParsing="false" onAction="#BtrQuayLai" styleClass="btr" text="Quay lại" GridPane.columnIndex="1" GridPane.rowIndex="9" />
    </children>
 </GridPane>

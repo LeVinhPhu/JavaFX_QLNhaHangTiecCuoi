@@ -21,13 +21,13 @@
             <Label styleClass="SubDV" text="Tên sảnh cưới" />
             <TextField fx:id="txtSCName" styleClass="SubDV" />
             <Label styleClass="SubDV" text="Đơn giá" />
-            <TextField fx:id="txtSCPrice" styleClass="SubDV" />
+            <TextField fx:id="txtSCPrice" onKeyPressed="#restrictNumbersOnly" styleClass="SubDV" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
             <Label styleClass="SubDV" text="Số bàn tối đa" />
-            <TextField fx:id="txtSoBanToiDa" styleClass="SubDV" />
+            <TextField fx:id="txtSoBanToiDa" onKeyPressed="#restrictNumbersOnly" styleClass="SubDV" />
             <Label styleClass="SubDV" text="Ghi chú" />
             <TextField fx:id="txtNotes" styleClass="SubDV" />
          </children>

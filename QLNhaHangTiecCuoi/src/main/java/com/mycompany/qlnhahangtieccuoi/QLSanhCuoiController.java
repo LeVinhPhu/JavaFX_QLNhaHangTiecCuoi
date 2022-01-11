@@ -22,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -100,11 +101,11 @@ public class QLSanhCuoiController implements Initializable {
                 init();
             }
             else
-                lbMess.setText("Món ăn đã tồn tại");
+                lbMess.setText("Sảnh cưới đã tồn tại");
         }catch(NullPointerException ex){
             lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
         }catch (NumberFormatException ex2){
-            lbMess.setText("Ô đơn giá hoặc số bàn tối đa phải nhập số");
+                lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
         }
     }
     @FXML
@@ -113,7 +114,7 @@ public class QLSanhCuoiController implements Initializable {
         if (sc != null){
             try{
             int scID = sc.getSanhCuoiID();
-            String serviceName = this.txtSCName.getText();
+            String serviceName = this.txtSCName.getText();            
             int sbtd = Integer.parseInt(this.txtSoBanToiDa.getText()); 
             double unitprice = Double.parseDouble(this.txtSCPrice.getText());
             String notes = this.txtNotes.getText();
@@ -125,7 +126,7 @@ public class QLSanhCuoiController implements Initializable {
             }catch (NullPointerException ex){
                 lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
             }catch (NumberFormatException ex2){
-                lbMess.setText("Ô đơn giá hoặc số bàn tối đa phải nhập số");
+                lbMess.setText("Bạn phải điền đủ các cột dữ liệu");
             } 
         }
         else
@@ -158,11 +159,25 @@ public class QLSanhCuoiController implements Initializable {
     }
     private void init(){
         this.lbMess.setText(null);
-        this.txtKeyword.setText(null);
-        this.txtSoBanToiDa.setText(null);
-        this.txtSCPrice.setText(null);
-        this.txtSCName.setText(null);
-        this.txtNotes.setText(null);
+        this.txtKeyword.setText("");
+        this.txtSoBanToiDa.setText("0");
+        this.txtSCPrice.setText("0");
+        this.txtNotes.setText("");
+        this.txtSCName.setText("");
     }
     
+    @FXML
+    private void restrictNumbersOnly(KeyEvent keyEvent) {
+        this.txtSCPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+        if (!newValue.matches("\\d*")) {
+            txtSCPrice.setText(newValue.replaceAll("[^\\d]", ""));
+        }
+    });
+        this.txtSoBanToiDa.textProperty().addListener((observable, oldValue, newValue) -> {
+        if (!newValue.matches("\\d*")) {
+            txtSoBanToiDa.setText(newValue.replaceAll("[^\\d]", ""));
+        }
+    });
+        
+    }
 }
