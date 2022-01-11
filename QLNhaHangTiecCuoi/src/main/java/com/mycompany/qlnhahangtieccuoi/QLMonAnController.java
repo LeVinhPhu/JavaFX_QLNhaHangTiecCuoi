@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -174,8 +175,16 @@ public class QLMonAnController implements Initializable {
     private void init(){
         this.txtFoodName.setText(null);
         this.txtKeyword.setText(null);
-        this.txtFoodPrice.setText(null);
+        this.txtFoodPrice.setText("0");
         this.txtNotes.setText(null);
         this.lbMess.setText(null);
+    }
+    @FXML
+    private void restrictNumbersOnly(KeyEvent keyEvent) {
+        this.txtFoodPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+        if (!newValue.matches("\\d*")) {
+            txtFoodPrice.setText(newValue.replaceAll("[^\\d]", ""));
+        }
+    });
     }
 }

@@ -7,21 +7,31 @@ package com.mycompany.qlnhahangtieccuoi;
 import com.mycompany.conf.Utils;
 import com.mycompany.pojo.Customers;
 import com.mycompany.services.CustomerServices;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -36,6 +46,7 @@ public class DangKyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        DayLimit();
         init();
     }    
     @FXML private TextField ho;
@@ -47,40 +58,32 @@ public class DangKyController implements Initializable {
     @FXML private DatePicker ns;
     @FXML private Label lbMess;
     
+    
     public void DangKybtr(ActionEvent event) throws SQLException, ParseException{
         try{
             String hoKH = this.ho.getText();
-            if (hoKH == null){
-                this.ho.setStyle("-fx-border-color: red;");
-            } else this.ho.setStyle("-fx-border-color: green;");
             String tenKH = this.ten.getText();
-            if (tenKH == null){
-                this.ten.setStyle("-fx-border-color: red;");
-            } else this.ten.setStyle("-fx-border-color: green;");
             String SDT = this.sdt.getText();
             String dc = this.diaChi.getText();
             String pass = this.matKhau.getText();
             String pass2 = this.matKhau2.getText();
-            double soDT = Double.parseDouble(SDT);
-            if (SDT == null || SDT.length() >10){
-                this.lbMess.setText("Số điện thoại không hợp lệ"); 
-                this.sdt.setStyle("-fx-border-color: red;");
-            }
-            //ns.setValue(LocalDate.now());
+            
             String ngay = this.ns.getValue().toString();
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
             Date ngaySinh = f.parse(ngay);
             java.sql.Date birthdate = new java.sql.Date(ngaySinh.getTime());
             CustomerServices kh = new CustomerServices();
-            if (pass.equals(pass2) == false){
-                this.lbMess.setText("2 mật khẩu không giống nhau"); 
-                this.matKhau2.setStyle("-fx-border-color: red;");
-                this.sdt.setStyle("-fx-border-color: black;");
+            if (SDT == null || SDT.length() < 10){
+                this.lbMess.setText("Số điện thoại phải có ít nhất 10 số");
+            }
+            else if (pass.length() < 6){
+                this.lbMess.setText("Mật khẩu phải trên 6 ký tự"); 
+            }
+            else if (pass.equals(pass2) == false){
+                this.lbMess.setText("2 mật khẩu không giống nhau");
             } 
             else if (kh.TonTaiSDT(SDT)){
                 this.lbMess.setText("Số điện thoại đã tồn tại");
-                this.sdt.setStyle("-fx-border-color: red;");
-                this.matKhau2.setStyle("-fx-border-color: black;");
             }
             else{
                 Customers k = new Customers(SDT, hoKH, tenKH, birthdate, dc, pass);
@@ -89,10 +92,14 @@ public class DangKyController implements Initializable {
             }  
         }catch (NullPointerException ex){
             this.lbMess.setText("Phải điền đầy đủ các trường dữ liệu");
-        }catch (NumberFormatException ex2){
-            this.lbMess.setText("Số điện thoại không hợp lệ");
-            this.sdt.setStyle("-fx-border-color: red;");
         }
+    }
+    public void BtrQuayLai(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("DangNhap.fxml"));
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void init(){
@@ -101,10 +108,42 @@ public class DangKyController implements Initializable {
         this.matKhau.setText(null);
         this.matKhau2.setText(null);
         this.sdt.setText(null);
+        this.ns.setValue(LocalDate.now());
     }
-    private void KiemTraSDT(){
-        
+    @FXML
+    private void restrictNumbersOnly(KeyEvent keyEvent) {
+        this.sdt.textProperty().addListener((observable, oldValue, newValue) -> {
+        if (!newValue.matches("\\d*")) {
+            sdt.setText(newValue.replaceAll("[^\\d]", ""));
+        }
+    });
     }
     
+    private class MinDateCell extends DateCell {
+
+        private ObjectProperty<LocalDate> date;
+
+        private MinDateCell(ObjectProperty<LocalDate> date) {
+            this.date = date;
+        }
+
+        @Override
+        public void updateItem(LocalDate item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item.isAfter(date.get())) {
+                this.setDisable(true);
+                setStyle("-fx-background-color: #7e7e7e;"); // I used a different coloring to see which are disabled.
+            }
+        }
+
+    }
+    
+    private void DayLimit(){
+        this.ns.setDayCellFactory(cf -> {
+            DatePicker dayNow = new DatePicker();
+            dayNow.setValue(LocalDate.now());
+            return new MinDateCell(dayNow.valueProperty());
+        });
+    }
     
 }
