@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,23 @@ public class FoodService {
             }
         }
         return list;
-    }    
+    }  
     
+    public List<Food> getFoodFromOrderDetails(int id) throws SQLException{
+        List<Food> list = new ArrayList<>();
+        try(Connection conn = JdbcUtils.getConn()){
+            String sql = "SELECT * FROM foodlist where id = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()){
+                Food f = new Food(rs.getInt("foodID"), rs.getString("foodName"), 
+                        rs.getDouble("unitPrice"), rs.getInt("categoryID"), rs.getString("notes"));
+                list.add(f);
+            }
+        return list;
+        }
+    }
     public void AddFood(Food food) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
             String sql = "INSERT INTO food (FoodName, Unitprice, categoryID, Notes) "

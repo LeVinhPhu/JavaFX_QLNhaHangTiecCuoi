@@ -14,6 +14,7 @@ public class OrderDetails {
     private int OrderID;
     private int FoodID;
     private int SanhCuoiID;
+    private String sanhcuoiName;
     private int ServiceID;
     private Date PartyDay;
     private String RentalPeriod;
@@ -41,6 +42,23 @@ public class OrderDetails {
         this.FoodID = FoodID;
         this.SanhCuoiID = SanhCuoiID;
         this.ServiceID = ServiceID;
+        this.PartyDay = PartyDay;
+        this.RentalPeriod = RentalPeriod;
+        this.soBan = soBan;
+        this.UnitPrice = UnitPrice;
+    }
+    public OrderDetails(int OrderID, int SanhCuoiID, Date PartyDay, String RentalPeriod, int soBan, double UnitPrice) {
+        this.OrderID = OrderID;
+        this.SanhCuoiID = SanhCuoiID;
+        this.PartyDay = PartyDay;
+        this.RentalPeriod = RentalPeriod;
+        this.soBan = soBan;
+        this.UnitPrice = UnitPrice;
+    }
+    
+    public OrderDetails(int OrderID, String SanhCuoiName, Date PartyDay, String RentalPeriod, int soBan, double UnitPrice) {
+        this.OrderID = OrderID;
+        this.sanhcuoiName = SanhCuoiName;
         this.PartyDay = PartyDay;
         this.RentalPeriod = RentalPeriod;
         this.soBan = soBan;
@@ -174,6 +192,20 @@ public class OrderDetails {
      */
     public void setRentalPeriod(String RentalPeriod) {
         this.RentalPeriod = RentalPeriod;
+    }
+
+    /**
+     * @return the sanhcuoiName
+     */
+    public String getSanhcuoiName() {
+        return sanhcuoiName;
+    }
+
+    /**
+     * @param sanhcuoiName the sanhcuoiName to set
+     */
+    public void setSanhcuoiName(String sanhcuoiName) {
+        this.sanhcuoiName = sanhcuoiName;
     }
 
     

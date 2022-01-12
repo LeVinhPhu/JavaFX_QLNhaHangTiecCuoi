@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="850.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.HoaDonController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sub" text="HOÁ ĐƠN" wrappingWidth="183.51873779296875">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Text>
+      <HBox prefHeight="36.0" prefWidth="830.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="106.0" styleClass="SubDV" text="Sảnh: " textAlignment="RIGHT">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Text fx:id="sanhCuoiName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" textOrigin="CENTER" wrappingWidth="120.0" />
+            <Label prefHeight="20.0" prefWidth="100.0" styleClass="SubDV" text="Ca: " textAlignment="RIGHT" />
+            <Text fx:id="ca" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" textOrigin="CENTER" wrappingWidth="100.0" />
+            <Label prefHeight="20.0" prefWidth="155.0" styleClass="SubDV" text="Tổng tiền: " />
+            <Text fx:id="tongTien" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" textOrigin="CENTER" wrappingWidth="120.0" />
+         </children>
+      </HBox>
+      <HBox prefHeight="47.0" prefWidth="830.0">
+         <children>
+            <Label prefHeight="20.0" prefWidth="106.0" styleClass="SubDV" text="Ngày tổ chức:" />
+            <DatePicker fx:id="ngayToChuc" disable="true" prefHeight="23.0" prefWidth="120.0" />
+            <Label styleClass="SubDV" text="Số lượng bàn:" />
+            <Text fx:id="soLuongBan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" textOrigin="CENTER" wrappingWidth="100.0" />
+            <Label prefWidth="155.0" styleClass="SubDV" text="Tiền cần thanh toán: ">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Text fx:id="tienCanThanhToan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" text="0" wrappingWidth="120.0" />
+         </children>
+      </HBox>
+      <HBox prefHeight="57.0" prefWidth="830.0">
+         <children>
+            <Text fx:id="tinhTrang" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubMes" textAlignment="CENTER" wrappingWidth="493.5998840332031" />
+         </children>
+      </HBox>
+      <HBox prefHeight="226.0" prefWidth="830.0">
+         <children>
+            <TableView fx:id="tbFood" prefHeight="174.0" prefWidth="415.0" />
+            <TableView fx:id="tbService" prefHeight="200.0" prefWidth="415.0" />
+         </children>
+      </HBox>
+      <TableView fx:id="tbOrder" onMouseClicked="#handleClickTableViewService" prefHeight="161.0" prefWidth="830.0" />
+      <HBox prefHeight="60.0" prefWidth="799.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#BtrQuayLai" styleClass="btr" text="Quay Lại">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="btThanhToan" alignment="CENTER" mnemonicParsing="false" onAction="#BtrThanhToan" styleClass="btr" text="Thanh Toán" textAlignment="CENTER" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

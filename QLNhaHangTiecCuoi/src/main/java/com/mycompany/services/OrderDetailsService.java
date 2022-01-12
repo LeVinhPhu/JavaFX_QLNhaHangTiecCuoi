@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,21 @@ public class OrderDetailsService {
         }
     }
     
+    public OrderDetails getSCFromOrderDetails(int id) throws SQLException{
+        OrderDetails oD = null;
+        try(Connection conn = JdbcUtils.getConn()){
+            String sql = "SELECT * FROM quanlydattiec.hoadon where orderID = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                oD = new OrderDetails(rs.getInt("orderID"), rs.getString("sanhcuoiname"), 
+                        rs.getDate("PartyDay"), rs.getString("RentalPeriod"), rs.getInt("soBan"), rs.getDouble("UnitPrice"));
+            }
+            return oD;
+        }
+    }
+    
     public void AddOrderDetails(OrderDetails orDe) throws SQLException{
         try(Connection conn = JdbcUtils.getConn()){
             String sql = "INSERT INTO orderdetails (OrderID, FoodID, SanhCuoiID, ServiceID, PartyDay, RentalPeriod, soBan, UnitPrice) "
@@ -50,6 +66,14 @@ public class OrderDetailsService {
             stm.setString(6, orDe.getRentalPeriod());
             stm.setInt(7, orDe.getSoBan());
             stm.setDouble(8, orDe.getUnitPrice());
+            stm.executeUpdate();
+        }
+    }
+    public void DeleteOrderDetails(int orderID) throws SQLException{
+        try(Connection conn = JdbcUtils.getConn()){
+            String sql = "DELETE FROM orderdetails WHERE (orderID = ?);";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, orderID);
             stm.executeUpdate();
         }
     }
