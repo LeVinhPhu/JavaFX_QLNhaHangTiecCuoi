@@ -20,8 +20,7 @@ import javafx.stage.Stage;
  *
  * @author Lenovo
  */
-public class ManHinhChonController implements Initializable {
-    
+public class ManHinhChonNVController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -31,8 +30,8 @@ public class ManHinhChonController implements Initializable {
         // TODO
     }    
     
-    public void BtrDatTiec(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("DatTiec.fxml"));
+    public void BtrQuanLy(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("QuanLy.fxml"));
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

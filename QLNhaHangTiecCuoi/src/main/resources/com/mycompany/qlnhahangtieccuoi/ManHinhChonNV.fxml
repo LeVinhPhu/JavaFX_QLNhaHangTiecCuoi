@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="506.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.ManHinhChonController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="506.0" stylesheets="@com.mycompany.style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.qlnhahangtieccuoi.ManHinhChonNVController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -37,11 +37,11 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#BtrDatTiec" text="Đặt Tiệc">
+            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#BtrQuanLy" text="Quản Lý">
                <graphic>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../Image/bag.png" />
+                        <Image url="@../../../Image/mechanical-gears-.png" />
                      </image>
                   </ImageView>
                </graphic>

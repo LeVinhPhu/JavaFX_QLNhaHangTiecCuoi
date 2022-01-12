@@ -60,6 +60,7 @@
       <TableView fx:id="tbService" onMouseClicked="#handleClickTableViewService" prefHeight="200.0" prefWidth="200.0" />
       <HBox prefHeight="60.0" prefWidth="799.0">
          <children>
+            <Button mnemonicParsing="false" onAction="#BtrQuayLai" styleClass="btr" text="Quay Lại" />
             <Button mnemonicParsing="false" onAction="#BtrThanhToan" styleClass="btr" text="Thanh toán">
                <opaqueInsets>
                   <Insets />

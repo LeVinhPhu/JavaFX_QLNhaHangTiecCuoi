@@ -6,11 +6,14 @@ package com.mycompany.services;
 
 import com.mycompany.conf.JdbcUtils;
 import com.mycompany.pojo.Orders;
+import com.mycompany.qlnhahangtieccuoi.DangNhapController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -41,5 +44,54 @@ public class OrdersService {
             }
         }
         return orderID;
+    }
+    
+    public List<Orders> getOrders(int cusID) throws SQLException{
+        List<Orders> list = new ArrayList<>();
+        try(Connection conn = JdbcUtils.getConn()){
+            String sql = "SELECT * FROM orders ";
+            if (cusID > 0)
+                sql += " where CustomerID = ? ";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            if (cusID > 0)
+                stm.setInt(1, cusID);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()){
+                Orders order = new Orders(rs.getInt("orderID"), rs.getInt("customerID"), 
+                        rs.getInt("employeeID"), rs.getDate("orderdate"),rs.getInt("paid"), rs.getInt("paymentID"));
+                list.add(order);
+            }
+        }
+        return list;
+    } 
+    
+    public int getCustomerIDFromOrder(int id) throws SQLException{
+        int cusID = -1;
+        try(Connection conn = JdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement("SELECT CustomerID FROM orders WHERE customerID = ?");
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()){
+                cusID = rs.getInt("CustomerID");                
+            }    
+            return cusID;
+        }
+    }
+    
+    public void UpdatePaid(int id) throws SQLException{
+        try(Connection conn = JdbcUtils.getConn()){
+            String sql = "UPDATE orders SET paid = 1 WHERE (OrderID = ?)";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+        }
+    }
+    public void DeleteOrder(int orderID) throws SQLException{
+        try(Connection conn = JdbcUtils.getConn()){
+            String sql = "DELETE FROM orders WHERE (orderID = ?);";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, orderID);
+            stm.executeUpdate();
+        }
     }
 }

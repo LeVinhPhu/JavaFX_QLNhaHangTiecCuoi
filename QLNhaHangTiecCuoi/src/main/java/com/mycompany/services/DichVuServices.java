@@ -5,11 +5,13 @@
 package com.mycompany.services;
 
 import com.mycompany.conf.JdbcUtils;
+import com.mycompany.pojo.Food;
 import com.mycompany.pojo.Services;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,21 @@ public class DichVuServices {
             PreparedStatement stm = conn.prepareStatement(sql);
             if (kw != null && !kw.isEmpty())
                 stm.setString(1, kw);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()){
+                Services s = new Services(rs.getInt("serviceID"), rs.getString("serviceName"), rs.getDouble("unitPrice"));
+                list.add(s);
+            }
+        }        
+        return list;
+    }
+    
+    public List<Services> getServicesFromOrderDetails(int id) throws SQLException{
+        List<Services> list = new ArrayList<>();
+        try(Connection conn = JdbcUtils.getConn()){
+            String sql = "SELECT * FROM servicelist where id = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
                 Services s = new Services(rs.getInt("serviceID"), rs.getString("serviceName"), rs.getDouble("unitPrice"));

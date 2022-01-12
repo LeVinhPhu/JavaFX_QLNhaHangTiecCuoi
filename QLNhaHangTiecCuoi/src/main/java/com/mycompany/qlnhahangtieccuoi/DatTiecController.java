@@ -16,6 +16,7 @@ import com.mycompany.services.OrderDetailsService;
 import com.mycompany.services.OrdersService;
 import com.mycompany.services.PaymentMethodService;
 import com.mycompany.services.SanhCuoiService;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -33,7 +34,11 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -45,6 +50,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
@@ -255,7 +261,14 @@ public class DatTiecController implements Initializable {
             }
         }catch(NullPointerException ex){};
     }
-    
+    @FXML
+    private void BtrQuayLai(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("ManHinhChon.fxml"));
+        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
     @FXML
     private void BtrHuy(ActionEvent event){
         init();
@@ -415,7 +428,7 @@ public class DatTiecController implements Initializable {
     
     private void DayLimit(){
         this.dayParty.setDayCellFactory(cf -> {
-            DatePicker dayNow = new DatePicker();
+            DatePicker dayNow = new DatePicker();            
             dayNow.setValue(LocalDate.now());
             return new MinDateCell(dayNow.valueProperty());
         });

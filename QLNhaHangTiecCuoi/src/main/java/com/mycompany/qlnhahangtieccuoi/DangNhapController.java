@@ -34,8 +34,8 @@ public class DangNhapController implements Initializable {
     @FXML private TextField mk;
     @FXML private Label lbMess;
     @FXML private ComboBox<String> cbLoaiDN;
-    public static int cusID = 9;
-    public static int emID;
+    public static int cusID = 0;
+    public static int emID = 0;
     /**
      * Initializes the controller class.
      */
@@ -55,6 +55,7 @@ public class DangNhapController implements Initializable {
             boolean kt = cus.KiemTraDangNhap(user, pass);
             if (kt){
                 cusID = cus.getCustomerID(user);
+                emID = 0;
 //                Utils.getBox("Đăng Nhập thành công", Alert.AlertType.INFORMATION).show();
                 //qua scene đặt tiệc
                 Parent root = FXMLLoader.load(getClass().getResource("ManHinhChon.fxml"));
@@ -74,9 +75,10 @@ public class DangNhapController implements Initializable {
             boolean kt = em.KiemTraDangNhap(user, pass);
             if (kt){
                 emID = em.GetEmployeeID(user);
+                cusID = -1;
 //                Utils.getBox("Đăng Nhập thành công", Alert.AlertType.INFORMATION).show();
                 //qua scene Quản lý
-                Parent root = FXMLLoader.load(getClass().getResource("QuanLy.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("ManHinhChonNV.fxml"));
                 Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
@@ -113,7 +115,4 @@ public class DangNhapController implements Initializable {
         this.cbLoaiDN.setValue("Khách hàng");
     }
     
-    private void ChangeSenceDatTiec(){
-        
-    }
 }
