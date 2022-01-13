@@ -41,7 +41,7 @@ public class DichVuServices {
     public List<Services> getServicesFromOrderDetails(int id) throws SQLException{
         List<Services> list = new ArrayList<>();
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "SELECT * FROM servicelist where id = ?";
+            String sql = "SELECT * FROM servicelist where id = ? group by serviceid";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();

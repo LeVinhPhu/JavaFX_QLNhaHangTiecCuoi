@@ -40,7 +40,7 @@ public class FoodService {
     public List<Food> getFoodFromOrderDetails(int id) throws SQLException{
         List<Food> list = new ArrayList<>();
         try(Connection conn = JdbcUtils.getConn()){
-            String sql = "SELECT * FROM foodlist where id = ?";
+            String sql = "SELECT * FROM foodlist where id = ? group by foodid";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
