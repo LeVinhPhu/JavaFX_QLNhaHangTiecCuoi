@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -75,6 +76,7 @@ public class DatTiecController implements Initializable {
     private double totalService;
     private double totalCost;
     private double totalFood;
+    private int soBan;
     private List<Food> listFood;
     private List<Services> listService;
     
@@ -134,10 +136,11 @@ public class DatTiecController implements Initializable {
                 }                    
                 totalCost = totalService + (tableNum * Double.parseDouble(this.donGiaBan.getText())) + (totalFood * Double.parseDouble(txtSoBan.getText()));;
                 this.tongTien.setText(String.valueOf(String.format("%.0f", totalCost)));
+                soBan = Integer.parseInt(this.txtSoBan.getText());
             } 
             else{
                 this.txtSoBan.setText("0");
-                this.tongTien.setText(String.valueOf(totalService));
+                this.tongTien.setText(String.valueOf(totalService + totalFood));
             }
 
         
@@ -197,6 +200,8 @@ public class DatTiecController implements Initializable {
             Services service = this.tbService.getSelectionModel().getSelectedItem();
             double temp;
             if (service != null){
+                soBan = Integer.parseInt(this.txtSoBan.getText());
+                lbMess.setText(String.valueOf(soBan));
                 if (service.getSelect().isSelected()){                
                     service.getSelect().setSelected(false);  //Chuyển trạng thái của checkbox  
                     listService.remove(service);
@@ -303,6 +308,7 @@ public class DatTiecController implements Initializable {
             }
             if (scID != -1){
                 //Tạo hoá đơn
+                //soBan = tableNum;
                 int customerID = DangNhapController.cusID;
                 int paymentID = getPaymentID();
                 //lấy employeeID: 1 là quy định theo tháng, 2 là bỏ
@@ -317,6 +323,7 @@ public class DatTiecController implements Initializable {
                 //Tạo chi tiết đơn hàng
                 OrderDetailsService orderDetailsSer = new OrderDetailsService();
                 //nếu có nhiều hơn 2 dịch vụ hoặc 2 món ăn thì thêm tiếp
+                
                 listFood.forEach(fo -> {
                     listService.forEach(s -> {
                     OrderDetails orderDetail = new OrderDetails(id, fo.getFoodID(), getSanhCuoiID(),
@@ -329,7 +336,7 @@ public class DatTiecController implements Initializable {
                     });
                 });                  
                 init();
-                this.lbMess.setText("đặt thành công"); 
+                this.lbMess.setText("Đặt tiệc thành công"); 
             }
         }
         
@@ -428,8 +435,8 @@ public class DatTiecController implements Initializable {
     
     private void DayLimit(){
         this.dayParty.setDayCellFactory(cf -> {
-            DatePicker dayNow = new DatePicker();            
-            dayNow.setValue(LocalDate.now());
+            DatePicker dayNow = new DatePicker();
+            dayNow.setValue(LocalDate.now()); 
             return new MinDateCell(dayNow.valueProperty());
         });
     }

@@ -117,16 +117,17 @@ public class HoaDonController implements Initializable {
             this.sanhCuoiName.setText(orDe.getSanhcuoiName());
             //LocalDate local = java.sql.Date(orDe.getPartyDay().getTime()).toLocalDate();
             this.ngayToChuc.setValue(orDe.getPartyDay().toLocalDate());
-            if (order.getPaid() == 0){
-                Double t = orDe.getUnitPrice() * 0.9;
-                this.tienCanThanhToan.setText(String.valueOf(t));
+            //paid = 1 => Toàn bộ
+            if (order.getPaid() == 1){
+                this.tienCanThanhToan.setText("0");
                 this.tinhTrang.setText("ĐÃ THANH TOÁN");
                 this.btThanhToan.setDisable(true);
                 this.btThanhToan.setVisible(false);
 
             }
             else{
-                this.tienCanThanhToan.setText("0");
+                Double t = orDe.getUnitPrice() * 0.9;
+                this.tienCanThanhToan.setText(String.valueOf(t));
                 this.tinhTrang.setText("CHƯA THANH TOÁN");
                 this.btThanhToan.setDisable(false);
                 this.btThanhToan.setVisible(true);
@@ -204,6 +205,9 @@ public class HoaDonController implements Initializable {
             OrdersService orSer = new OrdersService();
             orSer.DeleteOrder(order.getOrderID());
             this.tinhTrang.setText("Huỷ Đơn hàng thành công");
+            tbFood.getItems().clear();
+            tbService.getItems().clear();
+            tbOrder.getItems().remove(order);
         }
     }
     
@@ -212,6 +216,8 @@ public class HoaDonController implements Initializable {
             this.btThanhToan.setText("Huỷ đơn hàng");
         }
         else this.btThanhToan.setText("Thanh toán");
+        this.btThanhToan.setDisable(true);
+        this.btThanhToan.setVisible(false);
     }
     
 }
