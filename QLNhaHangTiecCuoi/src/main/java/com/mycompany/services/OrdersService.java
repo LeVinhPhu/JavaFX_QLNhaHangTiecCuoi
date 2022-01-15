@@ -6,7 +6,6 @@ package com.mycompany.services;
 
 import com.mycompany.conf.JdbcUtils;
 import com.mycompany.pojo.Orders;
-import com.mycompany.qlnhahangtieccuoi.DangNhapController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

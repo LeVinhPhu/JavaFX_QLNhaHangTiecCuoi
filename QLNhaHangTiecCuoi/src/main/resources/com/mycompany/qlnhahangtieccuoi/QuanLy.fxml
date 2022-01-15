@@ -81,7 +81,7 @@
                   </HBox>
                   <HBox prefHeight="62.0" prefWidth="502.0">
                      <children>
-                        <Label fx:id="lbMessFood" styleClass="SubMes" />
+                        <Label fx:id="lbMessSC" styleClass="SubMes" />
                      </children>
                   </HBox>
                   <TextField fx:id="txtKeywordSanhCuoi" promptText="Enter Keyword" styleClass="SubDV" />
@@ -129,7 +129,7 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="799.0">
                      <children>
-                        <Label fx:id="lbMessSC" styleClass="SubMes" />
+                        <Label fx:id="lbMessFood" styleClass="SubMes" />
                      </children>
                   </HBox>
                   <TextField fx:id="txtKeywordFood" promptText="Enter Keyword" styleClass="Sub" />
