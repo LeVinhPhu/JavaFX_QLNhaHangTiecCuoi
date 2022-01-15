@@ -34,7 +34,11 @@ public class FoodTest {
     }
     
     @ParameterizedTest
+<<<<<<< HEAD:QLNhaHangTiecCuoi/src/test/java/FoodTest.java
+    @CsvSource({"Salad,false","Bia,true","Gà,true","Trà sữa,true","Dâu tây,false"})
+=======
     @CsvSource({"Salad,false","Bia,true","Gà ta,false","Trà sữa,true","Dâu tây,false"})
+>>>>>>> main:QLNhaHangTiecCuoi/src/test/java/qlnhahangtieccuoitest/FoodTest.java
     public void test_KiemTaTonTai(String name, boolean expected) throws SQLException{
         Assertions.assertEquals(expected, food.KiemTaTonTai(name));
     }

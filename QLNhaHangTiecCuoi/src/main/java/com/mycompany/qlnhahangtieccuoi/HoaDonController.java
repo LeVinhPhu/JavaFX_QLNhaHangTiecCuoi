@@ -198,12 +198,20 @@ public class HoaDonController implements Initializable {
             OrdersService orSer = new OrdersService();
             orSer.UpdatePaid(order.getOrderID());
             this.tinhTrang.setText("Thanh toán thành công");
+<<<<<<< HEAD
+            this.btThanhToan.setDisable(true);
+            this.btThanhToan.setVisible(false);
+            tbOrder.getColumns().clear();
+            LoadTableView();
+            LoadTableData();
+=======
             tbOrder.getColumns().clear();
             LoadTableData();
             LoadTableView();
             this.btThanhToan.setDisable(true);
             this.btThanhToan.setVisible(false);
             
+>>>>>>> main
         }
         else{
             OrderDetailsService orDetailsSer = new OrderDetailsService();
@@ -214,12 +222,20 @@ public class HoaDonController implements Initializable {
             tbFood.getItems().clear();
             tbService.getItems().clear();
             tbOrder.getItems().remove(order);
+<<<<<<< HEAD
+            this.btThanhToan.setDisable(true);
+            this.btThanhToan.setVisible(false);
+            tbOrder.getColumns().clear();
+            LoadTableView();
+            LoadTableData();
+=======
             tbOrder.getColumns().clear();
             LoadTableData();
             LoadTableView();
             this.btThanhToan.setDisable(true);
             this.btThanhToan.setVisible(false);
             
+>>>>>>> main
         }
     }
     
