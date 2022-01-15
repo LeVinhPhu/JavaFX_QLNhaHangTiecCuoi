@@ -61,34 +61,27 @@ public class DangKyController implements Initializable {
     
     public void DangKybtr(ActionEvent event) throws SQLException, ParseException{
         try{
-            String hoKH = removeWhitespace(this.ho.getText());
-            String tenKH = removeWhitespace(this.ten.getText());
+            String hoKH = Utils.removeWhitespace(this.ho.getText());
+            String tenKH = Utils.removeWhitespace(this.ten.getText());
             String SDT = this.sdt.getText();
-            String dc = removeWhitespace(this.diaChi.getText());
-            String pass = ClearSpecialChar(this.matKhau.getText());
-            String pass2 = ClearSpecialChar(this.matKhau2.getText());
+            String dc = Utils.removeWhitespace(this.diaChi.getText());
+            String pass = Utils.clearSpecialChar(this.matKhau.getText());
+            String pass2 = Utils.clearSpecialChar(this.matKhau2.getText());
             
             String ngay = this.ns.getValue().toString();
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
             Date ngaySinh = f.parse(ngay);
             java.sql.Date birthdate = new java.sql.Date(ngaySinh.getTime());
             CustomerServices kh = new CustomerServices();
-            if (SDT == null || SDT.length() < 10){
-                this.lbMess.setText("Số điện thoại phải có ít nhất 10 số");
-            }
-            else if (pass.length() < 6){
-                this.lbMess.setText("Mật khẩu phải trên 6 ký tự"); 
-            }
-            else if (pass.equals(pass2) == false){
-                this.lbMess.setText("2 mật khẩu không giống nhau");
-            } 
-            else if (kh.TonTaiSDT(SDT)){
+            if (kh.TonTaiSDT(SDT))
                 this.lbMess.setText("Số điện thoại đã tồn tại");
-            }
             else{
-                Customers k = new Customers(SDT, hoKH, tenKH, birthdate, dc, pass);
-                kh.DangKyKhachHang(k);
-                Utils.getBox("Đăng ký thành công", Alert.AlertType.INFORMATION).show();
+                this.lbMess.setText(Utils.Mess(hoKH, tenKH, SDT, pass, pass2));
+                if (lbMess.getText() == null){
+                    Customers k = new Customers(SDT, hoKH, tenKH, birthdate, dc, pass);
+                    kh.DangKyKhachHang(k);
+                    Utils.getBox("Đăng ký thành công", Alert.AlertType.INFORMATION).show();
+                }
             }  
         }catch (NullPointerException ex){
             this.lbMess.setText("Phải điền đầy đủ các trường dữ liệu");
@@ -103,12 +96,12 @@ public class DangKyController implements Initializable {
     }
 
     private void init(){
-        this.ho.setText(null);
-        this.ten.setText(null);
-        this.matKhau.setText(null);
-        this.matKhau2.setText(null);
-        this.sdt.setText(null);
-        this.ns.setValue(LocalDate.now());
+        this.ho.setText("");
+        this.ten.setText("");
+        this.matKhau.setText("");
+        this.matKhau2.setText("");
+        this.sdt.setText("");
+        lbMess.setText(null);
     }
     @FXML
     private void restrictNumbersOnly(KeyEvent keyEvent) {
@@ -144,13 +137,5 @@ public class DangKyController implements Initializable {
             dayNow.setValue(LocalDate.now());
             return new MinDateCell(dayNow.valueProperty());
         });
-    }
-    
-    public static String removeWhitespace(String txt){
-        return txt.trim().replaceAll(" +", " ");
-        
-    }
-    public static String ClearSpecialChar(String s){
-        return s.replaceAll("[^\\w\\s]", "");
     }
 }
