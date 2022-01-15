@@ -61,12 +61,12 @@ public class DangKyController implements Initializable {
     
     public void DangKybtr(ActionEvent event) throws SQLException, ParseException{
         try{
-            String hoKH = this.ho.getText();
-            String tenKH = this.ten.getText();
+            String hoKH = removeWhitespace(this.ho.getText());
+            String tenKH = removeWhitespace(this.ten.getText());
             String SDT = this.sdt.getText();
-            String dc = this.diaChi.getText();
-            String pass = this.matKhau.getText();
-            String pass2 = this.matKhau2.getText();
+            String dc = removeWhitespace(this.diaChi.getText());
+            String pass = ClearSpecialChar(this.matKhau.getText());
+            String pass2 = ClearSpecialChar(this.matKhau2.getText());
             
             String ngay = this.ns.getValue().toString();
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
@@ -146,4 +146,11 @@ public class DangKyController implements Initializable {
         });
     }
     
+    public static String removeWhitespace(String txt){
+        return txt.trim().replaceAll(" +", " ");
+        
+    }
+    public static String ClearSpecialChar(String s){
+        return s.replaceAll("[^\\w\\s]", "");
+    }
 }

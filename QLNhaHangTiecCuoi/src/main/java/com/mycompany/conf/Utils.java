@@ -16,5 +16,9 @@ public class Utils {
         alert.setContentText(content);
         
         return alert;
+    }    
+    public static String removeWhitespace(String txt){
+        return txt.trim().replaceAll(" +", " ");
+        
     }
 }

@@ -10,7 +10,7 @@ package com.mycompany.pojo;
  */
 public class Categories {
     private int categoryID;
-    private String categoryName;
+    public String categoryName;
     private String Description;
 
     public Categories() {

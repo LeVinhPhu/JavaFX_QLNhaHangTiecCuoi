@@ -16,11 +16,11 @@ import com.mycompany.services.SanhCuoiService;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -77,10 +77,13 @@ public class QuanLyController implements Initializable {
         public void initialize(URL url, ResourceBundle rb) {
         // TODO
         initService();
+        initFood();
+        initSanhCuoi();
         LoadTableView();
         CategoryService cate = new CategoryService();
         try {
             this.cbCategories.setItems(FXCollections.observableList(cate.getCategories()));
+            this.cbCategories.setValue(cate.getCategory(1));
             LoadTableData(null);
         } catch (SQLException ex) {
             Logger.getLogger(QLDichVuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,11 +236,17 @@ public class QuanLyController implements Initializable {
     @FXML
     private void BtrAddService(ActionEvent event) throws SQLException{
         try{
-            String serviceName = txtServiceName.getText();
+            String serviceName = removeWhitespace(txtServiceName.getText());
             double unitprice = Double.parseDouble(txtServicePrice.getText());
             Services s = new Services(serviceName, unitprice);
             DichVuServices dv = new DichVuServices();
-            if (dv.kiemTraTonTai(serviceName)){
+            if (unitprice == 0.0){
+                lbMessService.setText("Đơn giá phải lớn hơn không");
+            }
+            else if (serviceName == null || serviceName.equals("")){
+                lbMessService.setText("Tên không đc để trống");
+            }
+            else if (dv.kiemTraTonTai(serviceName)){
                 dv.AddService(s);
                 LoadTableData(null);
                 Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
@@ -247,8 +256,6 @@ public class QuanLyController implements Initializable {
                 lbMessService.setText("Món ăn đã tồn tại");
         }catch (NumberFormatException ex2){
             lbMessService.setText("Ô đơn giá phải nhập số");
-        }catch(SQLIntegrityConstraintViolationException ex3){
-            lbMessService.setText("Bạn phải điền đủ các ô dữ liệu");
         }
     }
     @FXML
@@ -257,13 +264,21 @@ public class QuanLyController implements Initializable {
         if (service != null){
             try{
             int serID = service.getServiceID();
-            String serviceName = txtServiceName.getText();
+            String serviceName = removeWhitespace(txtServiceName.getText());
             double unitprice = Double.parseDouble(txtServicePrice.getText());
-            DichVuServices dv = new DichVuServices();
-            dv.UpdateService(serID, serviceName, unitprice);
-            LoadTableData(null);      
-            Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
-            initService();           
+            if (unitprice == 0.0){
+                lbMessService.setText("Đơn giá phải lớn hơn không");
+            }
+            else if (serviceName == null || serviceName.equals("")){
+                lbMessService.setText("Tên không đc để trống");
+            }
+            else{
+                DichVuServices dv = new DichVuServices();
+                dv.UpdateService(serID, serviceName, unitprice);
+                LoadTableData(null);      
+                Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                initService();          
+            }
             }catch (NumberFormatException ex2){
                 lbMessService.setText("Ô đơn giá phải nhập số");
             } 
@@ -287,9 +302,9 @@ public class QuanLyController implements Initializable {
     }
     
     private void initService(){
-        this.lbMessService.setText(null);
-        this.txtKeywordService.setText(null);
-        this.txtServiceName.setText(null);
+        this.lbMessService.setText("");
+        this.txtKeywordService.setText("");
+        this.txtServiceName.setText("");
         this.txtServicePrice.setText("0");
     }
     
@@ -297,25 +312,32 @@ public class QuanLyController implements Initializable {
     @FXML
     private void BtrAddFood(ActionEvent event) throws SQLException{
         try{
-            String foodName = this.txtFoodName.getText();
-            String notes = this.txtNotesFood.getText();
+            String foodName = removeWhitespace(this.txtFoodName.getText());
+            String notes = removeWhitespace(this.txtNotesFood.getText());
             double price = Double.parseDouble(this.txtFoodPrice.getText());
-            int cateID = getCategotyID();
-            Food food = new Food(foodName, price, cateID, notes);
-            FoodService f = new FoodService();
-            boolean kt = f.KiemTaTonTai(foodName);
-            if (kt){
-                f.AddFood(food);
-                LoadTableData(null);
-                Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
-                initFood();
+            
+            if (price == 0.0){
+                lbMessFood.setText("Đơn giá phải lớn hơn không");
             }
-            else
-                lbMessSC.setText("Món ăn đã tồn tại");
-        }catch(NullPointerException ex){
-            lbMessSC.setText("Bạn phải điền đủ các cột dữ liệu");
+            else if (foodName == null || foodName.equals("")){
+                lbMessFood.setText("Tên không đc để trống");
+            }
+            else{
+                int cateID = getCategotyID();
+                Food food = new Food(foodName, price, cateID, notes);
+                FoodService f = new FoodService();
+                boolean kt = f.KiemTaTonTai(foodName);
+                if (kt){
+                    f.AddFood(food);
+                    LoadTableData(null);
+                    Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
+                    initFood();
+                }
+                else
+                    lbMessFood.setText("Món ăn đã tồn tại");
+            }
         }catch (NumberFormatException ex2){
-            lbMessSC.setText("Ô đơn giá phải nhập số");
+            lbMessFood.setText("Ô đơn giá phải nhập số");
         }
         
     }
@@ -325,23 +347,30 @@ public class QuanLyController implements Initializable {
         if (f != null){
             try{
                 int foodID = f.getFoodID();
-                String foodName = this.txtFoodName.getText();
-                String notes = this.txtNotesFood.getText();
+                String foodName = removeWhitespace(this.txtFoodName.getText());
+                String notes = removeWhitespace(this.txtNotesFood.getText());
                 double price = Double.parseDouble(this.txtFoodPrice.getText());
-                int cateID = getCategotyID();
-                FoodService foodSer = new FoodService();
-                foodSer.UpdateFood(foodID, foodName, price, cateID, notes);
-                LoadTableData(null);
-                Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
-                initFood();
-            }catch (NullPointerException ex){
-                lbMessSC.setText("Bạn phải điền đủ các cột dữ liệu");
+                
+                if (price == 0.0){
+                lbMessFood.setText("Đơn giá phải lớn hơn không");
+                }
+                else if (foodName == null || foodName.equals("")){
+                    lbMessFood.setText("Tên không đc để trống");
+                }
+                else{
+                    int cateID = getCategotyID();
+                    FoodService foodSer = new FoodService();
+                    foodSer.UpdateFood(foodID, foodName, price, cateID, notes);
+                    LoadTableData(null);
+                    Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                    initFood();
+                }
             }catch (NumberFormatException ex2){
-                lbMessSC.setText("Ô đơn giá phải nhập số");
+                lbMessFood.setText("Ô đơn giá phải nhập số");
             }             
         }
         else
-            lbMessSC.setText("Chưa chọn đối tượng để sửa");
+            lbMessFood.setText("Chưa chọn đối tượng để sửa");
     }
     @FXML
     private void BtrDeleteFood(ActionEvent event) throws SQLException{
@@ -355,7 +384,7 @@ public class QuanLyController implements Initializable {
             initFood();
         }
         else
-            lbMessSC.setText("Chưa chọn đối tượng để xoá");
+            lbMessFood.setText("Chưa chọn đối tượng để xoá");
     }
     
     private int getCategotyID(){
@@ -364,34 +393,42 @@ public class QuanLyController implements Initializable {
         return cateID;
     }
     private void initFood(){
-        this.txtFoodName.setText(null);
-        this.txtKeywordFood.setText(null);
+        this.txtFoodName.setText("");
+        this.txtKeywordFood.setText("");
         this.txtFoodPrice.setText("0");
-        this.txtNotesFood.setText(null);
-        this.lbMessSC.setText(null);
+        this.txtNotesFood.setText("");
+        this.lbMessSC.setText("");
     }
     
     //Sảnh cưới
     @FXML
     private void BtrAddSanhCuoi(ActionEvent event) throws SQLException{
         try{
-            String scName = this.txtSCName.getText();
+            String scName = removeWhitespace(this.txtSCName.getText());
             double unitprice = Double.parseDouble(this.txtSCPrice.getText());
             int sbtd = Integer.parseInt(this.txtSoBanToiDa.getText());
-            String notes = this.txtNotesSanhCuoi.getText();
-            
-            SanhCuoi s = new SanhCuoi(scName, sbtd, unitprice, notes);
-            SanhCuoiService sc = new SanhCuoiService();
-            if (sc.kiemTraTonTai(scName)){
-                sc.AddSanhCuoi(s);
-                LoadTableData(null);
-                Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
-                initSanhCuoi();
+            String notes = removeWhitespace(this.txtNotesSanhCuoi.getText());
+            if (unitprice == 0.0){
+                lbMessSC.setText("Đơn giá phải lớn hơn không");
             }
-            else
-                lbMessSC.setText("Sảnh cưới đã tồn tại");
-        }catch(NullPointerException ex){
-            lbMessSC.setText("Bạn phải điền đủ các cột dữ liệu");
+            else if (scName == null || scName.equals("")){
+                lbMessSC.setText("Tên không đc để trống");
+            }
+            else if (sbtd == 0){
+                lbMessSC.setText("số lượng bàn phải lớn hơn không");
+            }
+            else{
+                SanhCuoi s = new SanhCuoi(scName, sbtd, unitprice, notes);
+                SanhCuoiService sc = new SanhCuoiService();
+                if (sc.kiemTraTonTai(scName)){
+                    sc.AddSanhCuoi(s);
+                    LoadTableData(null);
+                    Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
+                    initSanhCuoi();
+                }
+                else
+                    lbMessSC.setText("Sảnh cưới đã tồn tại");
+            }
         }catch (NumberFormatException ex2){
                 lbMessSC.setText("Bạn phải điền đủ các cột dữ liệu");
         }
@@ -402,17 +439,26 @@ public class QuanLyController implements Initializable {
         if (sc != null){
             try{
             int scID = sc.getSanhCuoiID();
-            String serviceName = this.txtSCName.getText();            
+            String scName = removeWhitespace(this.txtSCName.getText());            
             int sbtd = Integer.parseInt(this.txtSoBanToiDa.getText()); 
             double unitprice = Double.parseDouble(this.txtSCPrice.getText());
-            String notes = this.txtNotesSanhCuoi.getText();
-            SanhCuoiService scService = new SanhCuoiService();
-            scService.UpdateSanhCuoi(scID, serviceName, sbtd, unitprice, notes);
-            LoadTableData(null);      
-            Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
-            initSanhCuoi();
-            }catch (NullPointerException ex){
-                lbMessSC.setText("Bạn phải điền đủ các cột dữ liệu");
+            String notes = removeWhitespace(this.txtNotesSanhCuoi.getText());
+            if (unitprice == 0.0){
+                lbMessSC.setText("Đơn giá phải lớn hơn không");
+            }
+            else if (scName == null || scName.equals("")){
+                lbMessSC.setText("Tên không đc để trống");
+            }
+            else if (sbtd == 0){
+                lbMessSC.setText("số lượng bàn phải lớn hơn không");
+            }
+            else{
+                SanhCuoiService scService = new SanhCuoiService();
+                scService.UpdateSanhCuoi(scID, scName, sbtd, unitprice, notes);
+                LoadTableData(null);      
+                Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                initSanhCuoi();
+            }
             }catch (NumberFormatException ex2){
                 lbMessSC.setText("Bạn phải điền đủ các cột dữ liệu");
             } 
@@ -436,14 +482,17 @@ public class QuanLyController implements Initializable {
     }
     
     private void initSanhCuoi(){
-        this.lbMessSC.setText(null);
+        this.lbMessSC.setText("");
         this.txtKeywordSanhCuoi.setText("");
         this.txtSoBanToiDa.setText("0");
         this.txtSCPrice.setText("0");
         this.txtNotesSanhCuoi.setText("");
         this.txtSCName.setText("");
     }
-    
+    public static String removeWhitespace(String txt){
+        return txt.trim().replaceAll(" +", " ");
+        
+    }
     
 }
 
