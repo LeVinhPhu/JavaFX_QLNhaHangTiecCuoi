@@ -31,7 +31,7 @@ public class OrderTest {
     }
     @Test 
     public void test_getTheLargestOrderID() throws SQLException{
-        int expected = 28;
+        int expected = 32;
         Assertions.assertEquals(expected, or.getTheLargestOrderID());
     }
 
