@@ -4,6 +4,7 @@
  */
 package com.mycompany.qlnhahangtieccuoi;
 
+import com.mycompany.conf.Utils;
 import com.mycompany.pojo.Food;
 import com.mycompany.pojo.OrderDetails;
 import com.mycompany.pojo.Orders;
@@ -25,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,6 +40,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -200,8 +201,6 @@ public class DatTiecController implements Initializable {
             Services service = this.tbService.getSelectionModel().getSelectedItem();
             double temp;
             if (service != null){
-                soBan = Integer.parseInt(this.txtSoBan.getText());
-                lbMess.setText(String.valueOf(soBan));
                 if (service.getSelect().isSelected()){                
                     service.getSelect().setSelected(false);  //Chuyển trạng thái của checkbox  
                     listService.remove(service);
@@ -327,16 +326,17 @@ public class DatTiecController implements Initializable {
                 listFood.forEach(fo -> {
                     listService.forEach(s -> {
                     OrderDetails orderDetail = new OrderDetails(id, fo.getFoodID(), getSanhCuoiID(),
-                            s.getServiceID(), ngayDT, rentalPeriod, Integer.parseInt(this.txtSoBan.getText()), Double.parseDouble(tongTien.getText()));
+                            s.getServiceID(), ngayDT, rentalPeriod, soBan, Double.parseDouble(tongTien.getText()));
                         try {
                             orderDetailsSer.AddOrderDetails(orderDetail);
                         } catch (SQLException ex) {
                             Logger.getLogger(DatTiecController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     });
-                });                  
+                });
                 init();
                 this.lbMess.setText("Đặt tiệc thành công"); 
+                Utils.getBox("Đặt tiệc thành công", Alert.AlertType.INFORMATION);
             }
         }
         
@@ -348,13 +348,12 @@ public class DatTiecController implements Initializable {
         if (sc != null){
             this.donGiaBan.setText(String.valueOf(sc.getUnitPrice()));
             this.slBanTD.setText(String.valueOf(sc.getSoBanToiDa()));
-            this.txtSoBan.setText(this.slBanTD.getText());
             scID = sc.getSanhCuoiID();
         }
         return scID;
     }
     @FXML
-    private void EventComboBox(ActionEvent event){
+    private void EventComboBox(ActionEvent event)   {
         getSanhCuoiID();
         getPaymentID();
     }

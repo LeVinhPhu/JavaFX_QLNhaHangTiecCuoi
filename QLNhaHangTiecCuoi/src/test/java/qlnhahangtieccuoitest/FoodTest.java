@@ -1,3 +1,5 @@
+package qlnhahangtieccuoitest;
+
 
 import com.mycompany.conf.JdbcUtils;
 import com.mycompany.services.FoodService;
@@ -32,7 +34,7 @@ public class FoodTest {
     }
     
     @ParameterizedTest
-    @CsvSource({"Salad,false","Bia,true","Gà,false","Trà sữa,true","Dâu tây,false"})
+    @CsvSource({"Salad,false","Bia,true","Gà ta,false","Trà sữa,true","Dâu tây,false"})
     public void test_KiemTaTonTai(String name, boolean expected) throws SQLException{
         Assertions.assertEquals(expected, food.KiemTaTonTai(name));
     }

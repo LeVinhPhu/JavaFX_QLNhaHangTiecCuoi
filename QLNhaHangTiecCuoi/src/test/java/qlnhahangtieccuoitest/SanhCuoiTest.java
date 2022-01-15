@@ -1,3 +1,5 @@
+package qlnhahangtieccuoitest;
+
 
 import com.mycompany.conf.JdbcUtils;
 import com.mycompany.services.SanhCuoiService;

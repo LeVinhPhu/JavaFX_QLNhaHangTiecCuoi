@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -236,7 +235,7 @@ public class QuanLyController implements Initializable {
     @FXML
     private void BtrAddService(ActionEvent event) throws SQLException{
         try{
-            String serviceName = removeWhitespace(txtServiceName.getText());
+            String serviceName = Utils.removeWhitespace(txtServiceName.getText());
             double unitprice = Double.parseDouble(txtServicePrice.getText());
             Services s = new Services(serviceName, unitprice);
             DichVuServices dv = new DichVuServices();
@@ -264,7 +263,7 @@ public class QuanLyController implements Initializable {
         if (service != null){
             try{
             int serID = service.getServiceID();
-            String serviceName = removeWhitespace(txtServiceName.getText());
+            String serviceName = Utils.removeWhitespace(txtServiceName.getText());
             double unitprice = Double.parseDouble(txtServicePrice.getText());
             if (unitprice == 0.0){
                 lbMessService.setText("Đơn giá phải lớn hơn không");
@@ -312,8 +311,8 @@ public class QuanLyController implements Initializable {
     @FXML
     private void BtrAddFood(ActionEvent event) throws SQLException{
         try{
-            String foodName = removeWhitespace(this.txtFoodName.getText());
-            String notes = removeWhitespace(this.txtNotesFood.getText());
+            String foodName = Utils.removeWhitespace(this.txtFoodName.getText());
+            String notes = Utils.removeWhitespace(this.txtNotesFood.getText());
             double price = Double.parseDouble(this.txtFoodPrice.getText());
             
             if (price == 0.0){
@@ -347,8 +346,8 @@ public class QuanLyController implements Initializable {
         if (f != null){
             try{
                 int foodID = f.getFoodID();
-                String foodName = removeWhitespace(this.txtFoodName.getText());
-                String notes = removeWhitespace(this.txtNotesFood.getText());
+                String foodName = Utils.removeWhitespace(this.txtFoodName.getText());
+                String notes = Utils.removeWhitespace(this.txtNotesFood.getText());
                 double price = Double.parseDouble(this.txtFoodPrice.getText());
                 
                 if (price == 0.0){
@@ -404,10 +403,10 @@ public class QuanLyController implements Initializable {
     @FXML
     private void BtrAddSanhCuoi(ActionEvent event) throws SQLException{
         try{
-            String scName = removeWhitespace(this.txtSCName.getText());
+            String scName = Utils.removeWhitespace(this.txtSCName.getText());
             double unitprice = Double.parseDouble(this.txtSCPrice.getText());
             int sbtd = Integer.parseInt(this.txtSoBanToiDa.getText());
-            String notes = removeWhitespace(this.txtNotesSanhCuoi.getText());
+            String notes = Utils.removeWhitespace(this.txtNotesSanhCuoi.getText());
             if (unitprice == 0.0){
                 lbMessSC.setText("Đơn giá phải lớn hơn không");
             }
@@ -439,10 +438,10 @@ public class QuanLyController implements Initializable {
         if (sc != null){
             try{
             int scID = sc.getSanhCuoiID();
-            String scName = removeWhitespace(this.txtSCName.getText());            
+            String scName = Utils.removeWhitespace(this.txtSCName.getText());            
             int sbtd = Integer.parseInt(this.txtSoBanToiDa.getText()); 
             double unitprice = Double.parseDouble(this.txtSCPrice.getText());
-            String notes = removeWhitespace(this.txtNotesSanhCuoi.getText());
+            String notes = Utils.removeWhitespace(this.txtNotesSanhCuoi.getText());
             if (unitprice == 0.0){
                 lbMessSC.setText("Đơn giá phải lớn hơn không");
             }
@@ -488,10 +487,6 @@ public class QuanLyController implements Initializable {
         this.txtSCPrice.setText("0");
         this.txtNotesSanhCuoi.setText("");
         this.txtSCName.setText("");
-    }
-    public static String removeWhitespace(String txt){
-        return txt.trim().replaceAll(" +", " ");
-        
     }
     
 }
