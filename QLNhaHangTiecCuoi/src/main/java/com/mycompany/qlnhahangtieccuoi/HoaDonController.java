@@ -228,7 +228,6 @@ public class HoaDonController implements Initializable {
             LoadTableView();
             this.btThanhToan.setDisable(true);
             this.btThanhToan.setVisible(false);
-            
         }
         else{
             OrderDetailsService orDetailsSer = new OrderDetailsService();
@@ -244,7 +243,6 @@ public class HoaDonController implements Initializable {
             LoadTableView();
             this.btThanhToan.setDisable(true);
             this.btThanhToan.setVisible(false);
-            
         }
     }
     

@@ -9,9 +9,6 @@ import com.mycompany.conf.JdbcUtils;
 import com.mycompany.services.CategoryService;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -40,6 +37,5 @@ import org.junit.jupiter.api.Assertions;
             String expected = "Món chính";
             String actual = cate.getCategory(n).getCategoryName();
             Assertions.assertEquals(expected, actual);
-        }
-               
+        }         
     }
