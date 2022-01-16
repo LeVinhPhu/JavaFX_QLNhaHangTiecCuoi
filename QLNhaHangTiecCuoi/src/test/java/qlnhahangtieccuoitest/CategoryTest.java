@@ -41,11 +41,5 @@ import org.junit.jupiter.api.Assertions;
             String actual = cate.getCategory(n).getCategoryName();
             Assertions.assertEquals(expected, actual);
         }
-        @Test
-        public void TestUnique() throws SQLException{
-            List<String> kq = (List<String>) cate.getCategories().get(1);
-            Set<String> kq2 = new HashSet<>(kq);
-            Assertions.assertEquals(kq.size(), kq2.size());
-        }
                
     }

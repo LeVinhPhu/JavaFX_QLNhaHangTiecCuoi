@@ -55,7 +55,7 @@
             <TableView fx:id="tbService" prefHeight="200.0" prefWidth="415.0" />
          </children>
       </HBox>
-      <TableView fx:id="tbOrder" onMouseClicked="#handleClickTableViewService" prefHeight="161.0" prefWidth="830.0" />
+      <TableView fx:id="tbOrder" onMouseClicked="#handleClickTableViewOrders" prefHeight="161.0" prefWidth="830.0" />
       <HBox prefHeight="60.0" prefWidth="799.0">
          <children>
             <Button mnemonicParsing="false" onAction="#BtrQuayLai" styleClass="btr" text="Quay Lại">
