@@ -252,7 +252,7 @@ public class QuanLyController implements Initializable {
                 initService();
             }
             else
-                lbMessService.setText("Món ăn đã tồn tại");
+                lbMessService.setText("dịch vụ đã tồn tại");
         }catch (NumberFormatException ex2){
             lbMessService.setText("Ô đơn giá phải nhập số");
         }
