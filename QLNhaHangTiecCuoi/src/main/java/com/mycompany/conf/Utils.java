@@ -4,9 +4,10 @@
  */
 package com.mycompany.conf;
 
-import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import javafx.scene.control.Alert;
 
 /**
@@ -14,6 +15,7 @@ import javafx.scene.control.Alert;
  * @author Lenovo
  */
 public class Utils {
+    
     public static Alert getBox (String content, Alert.AlertType type){
         Alert alert = new Alert(type);
         alert.setContentText(content);
@@ -41,8 +43,70 @@ public class Utils {
             else if (mk.equals(mk2) == false){
                 return("2 mật khẩu không giống nhau");
             }
-        return null;
+        return "";
     }
+    
+    public static String checkPassword(String str){
+        int upper = 0, lower = 0, number = 0, special = 0;
+
+            for(int i = 0; i < str.length(); i++)
+            {
+                char ch = str.charAt(i);
+                if (ch >= 'A' && ch <= 'Z')
+                    upper++;
+                else if (ch >= 'a' && ch <= 'z')
+                    lower++;
+                else if (ch >= '0' && ch <= '9')
+                    number++;
+                else
+                    special++;
+            }
+        if (upper == 0 || number == 0 || lower == 0)
+            return "Mật khẩu phải bao gồm chữ hoa, chữ thường và số";
+        return "";        
+    }
+    
+    public static boolean isValidDate(String dateStr, String dateFormat){
+        DateFormat sdf = new SimpleDateFormat(dateFormat);
+        sdf.setLenient(false);
+        try {
+            sdf.parse(dateStr);
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
+    }
+    private static int sntd (int m, int y){
+	switch (m)
+	{
+            case 2:
+                    if (y % 400 == 0 || y % 4 == 0 && y % 100 != 0)
+                        return 29;
+                    return 28;
+            case 4: case 6: case 9: case 11:
+                    return 30;
+            default:
+                    return 31;
+	}
+}
+    public static LocalDate getNextWeek(String strDate, int d, int m, int y){
+        d = Integer.parseInt(strDate.substring(8));
+        m = Integer.parseInt(strDate.substring(5, 7));
+        y = Integer.parseInt(strDate.substring(0, 4));
+        d += 7;
+        int sn = Utils.sntd(m, y);
+        if (d > sn){
+            m++;
+            if (m > 12){
+                y++;
+                m = 1;
+            }
+            d -= sn;
+        }
+        LocalDate date = LocalDate.of(y, m, d);
+        return date;
+    }
+    
 
     
 }

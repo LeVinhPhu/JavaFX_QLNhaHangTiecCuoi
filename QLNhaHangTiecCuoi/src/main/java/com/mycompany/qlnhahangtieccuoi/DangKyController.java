@@ -71,18 +71,21 @@ public class DangKyController implements Initializable {
             String ngay = this.ns.getValue().toString();
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
             Date ngaySinh = f.parse(ngay);
-            java.sql.Date birthdate = new java.sql.Date(ngaySinh.getTime());
-            CustomerServices kh = new CustomerServices();
+            java.sql.Date birthdate = new java.sql.Date(ngaySinh.getTime());            
+            CustomerServices kh = new CustomerServices();            
             if (kh.TonTaiSDT(SDT))
                 this.lbMess.setText("Số điện thoại đã tồn tại");
             else{
-                this.lbMess.setText(Utils.Mess(hoKH, tenKH, SDT, pass, pass2));
-                if (lbMess.getText() == null){
-                    Customers k = new Customers(SDT, hoKH, tenKH, birthdate, dc, pass);
-                    kh.DangKyKhachHang(k);
-                    Utils.getBox("Đăng ký thành công", Alert.AlertType.INFORMATION).show();
-                }
-            }  
+                this.lbMess.setText(Utils.Mess(hoKH, tenKH, SDT, pass, pass2));                
+                if ("".equals(this.lbMess.getText())){
+                    this.lbMess.setText(Utils.checkPassword(pass));
+                    if ("".equals(this.lbMess.getText())){
+                        Customers k = new Customers(SDT, hoKH, tenKH, birthdate, dc, pass);
+                        kh.DangKyKhachHang(k);
+                        Utils.getBox("Đăng ký thành công", Alert.AlertType.INFORMATION).show();
+                    }
+                }  
+            }
         }catch (NullPointerException ex){
             this.lbMess.setText("Phải điền đầy đủ các trường dữ liệu");
         }
@@ -101,7 +104,7 @@ public class DangKyController implements Initializable {
         this.matKhau.setText("");
         this.matKhau2.setText("");
         this.sdt.setText("");
-        lbMess.setText(null);
+        lbMess.setText("");
     }
     @FXML
     private void restrictNumbersOnly(KeyEvent keyEvent) {
