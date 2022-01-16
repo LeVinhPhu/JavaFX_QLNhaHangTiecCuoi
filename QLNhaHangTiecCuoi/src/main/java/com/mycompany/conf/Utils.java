@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import javafx.scene.control.Alert;
 
 /**
@@ -76,7 +77,7 @@ public class Utils {
         }
         return true;
     }
-    private static int sntd (int m, int y){
+    public static int sntd (int m, int y){
 	switch (m)
 	{
             case 2:
@@ -107,6 +108,12 @@ public class Utils {
         return date;
     }
     
-
+    public  static int CompareTwoDates(String partyDay, String dayNow) throws ParseException{
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+        Date d1 = sdformat.parse(partyDay);
+        Date d2 = sdformat.parse(dayNow);
+        int result = d1.compareTo(d2);
+        return result;
+    }
     
 }

@@ -200,11 +200,6 @@ public class DatTiecController implements Initializable {
             Services service = this.tbService.getSelectionModel().getSelectedItem();
             double temp;
             if (service != null){
-<<<<<<< HEAD
-//                soBan = Integer.parseInt(this.txtSoBan.getText());
-//                lbMess.setText(String.valueOf(soBan));
-=======
->>>>>>> main
                 if (service.getSelect().isSelected()){                
                     service.getSelect().setSelected(false);  //Chuyển trạng thái của checkbox  
                     listService.remove(service);

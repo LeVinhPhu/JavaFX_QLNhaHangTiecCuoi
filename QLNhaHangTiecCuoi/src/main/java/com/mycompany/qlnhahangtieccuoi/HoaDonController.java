@@ -4,6 +4,7 @@
  */
 package com.mycompany.qlnhahangtieccuoi;
 
+import com.mycompany.conf.Utils;
 import com.mycompany.pojo.Food;
 import com.mycompany.pojo.OrderDetails;
 import com.mycompany.pojo.Orders;
@@ -15,6 +16,8 @@ import com.mycompany.services.OrdersService;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,7 +100,7 @@ public class HoaDonController implements Initializable {
         this.tbOrder.setItems(FXCollections.observableArrayList(or.getOrders(id)));
     }
     @FXML
-    private void handleClickTableViewService(MouseEvent click) throws SQLException{
+    private void handleClickTableViewOrders(MouseEvent click) throws SQLException, ParseException{
         Orders order = tbOrder.getSelectionModel().getSelectedItem();
         if (order != null){
         //Load Food
@@ -129,8 +132,30 @@ public class HoaDonController implements Initializable {
                 Double t = orDe.getUnitPrice() * 0.9;
                 this.tienCanThanhToan.setText(String.valueOf(t));
                 this.tinhTrang.setText("CHƯA THANH TOÁN");
-                this.btThanhToan.setDisable(false);
-                this.btThanhToan.setVisible(true);
+                if (btThanhToan.getText().equals("Thanh toán")){
+                    String d1 = this.ngayToChuc.getValue().toString();
+                    String d2 = LocalDate.now().toString();
+                    if (Utils.CompareTwoDates(d1, d2) > 0){                        
+                        this.btThanhToan.setDisable(false);
+                        this.btThanhToan.setVisible(true);
+                    }
+                    else{
+                        this.btThanhToan.setDisable(true);
+                        this.btThanhToan.setVisible(false);
+                    }
+                }
+                else{
+                    String d1 = this.ngayToChuc.getValue().toString();
+                    String d2 = LocalDate.now().toString();
+                    if (Utils.CompareTwoDates(d1, d2) <= 0){                        
+                        this.btThanhToan.setDisable(false);
+                        this.btThanhToan.setVisible(true);
+                    }
+                    else{
+                        this.btThanhToan.setDisable(true);
+                        this.btThanhToan.setVisible(false);
+                    }
+                }
             }
         }
     }
@@ -198,20 +223,11 @@ public class HoaDonController implements Initializable {
             OrdersService orSer = new OrdersService();
             orSer.UpdatePaid(order.getOrderID());
             this.tinhTrang.setText("Thanh toán thành công");
-<<<<<<< HEAD
-            this.btThanhToan.setDisable(true);
-            this.btThanhToan.setVisible(false);
-            tbOrder.getColumns().clear();
-            LoadTableView();
-            LoadTableData();
-=======
             tbOrder.getColumns().clear();
             LoadTableData();
             LoadTableView();
             this.btThanhToan.setDisable(true);
             this.btThanhToan.setVisible(false);
-            
->>>>>>> main
         }
         else{
             OrderDetailsService orDetailsSer = new OrderDetailsService();
@@ -222,20 +238,11 @@ public class HoaDonController implements Initializable {
             tbFood.getItems().clear();
             tbService.getItems().clear();
             tbOrder.getItems().remove(order);
-<<<<<<< HEAD
-            this.btThanhToan.setDisable(true);
-            this.btThanhToan.setVisible(false);
-            tbOrder.getColumns().clear();
-            LoadTableView();
-            LoadTableData();
-=======
             tbOrder.getColumns().clear();
             LoadTableData();
             LoadTableView();
             this.btThanhToan.setDisable(true);
             this.btThanhToan.setVisible(false);
-            
->>>>>>> main
         }
     }
     
