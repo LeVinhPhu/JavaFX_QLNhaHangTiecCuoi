@@ -28,20 +28,18 @@ public class UtilsTest {
 
     //Ký tự khoảng trắng không phải là ký tự đặc biệt
     @ParameterizedTest
-    @CsvSource({"Giao%^* Giao%&$ ,GiaoGiao", "Nguyen *^Van Quoc$%,NguyenVanQuoc", "+-*Van vo<>?, Vanvo"})
+    @CsvSource({"Giao%^* Giao%&$ ,GiaoGiao", "123Nguyen *^Van Quoc$%,123NguyenVanQuoc", "+-*Van vo<>?, Vanvo"})
     public void ClearSpecialCharTest(String s, String expected) {
         Assertions.assertEquals(expected, Utils.clearSpecialChar(s));
     }
+    
     @ParameterizedTest
-    @CsvSource({",Giao,0386634020,123456, 123456,Không được để trống", ",,,12345, true,Không được để trống"})
-    public void MessTestTrue(String ho, String ten, String sdt, String mk, String mk2, String expected) {
-        Assertions.assertEquals(Utils.Mess(ho,ten,sdt,mk,mk2), expected);
+    @CsvSource({",Giao,0386634020,123456, 123456", ",,,12345, true"})
+    public void MessTestTrue(String ho, String ten, String sdt, String mk, String mk2) {
+        int expected = Utils.Mess(ho,ten,sdt,mk,mk2).length();
+        Assertions.assertEquals(expected, 0);
     }
-    @ParameterizedTest
-    @CsvSource({"Le,Vinh Phu,03856283755,123456, 123456", "Nguyen,Vu,0904716392,123456, 123456"})
-    public void MessTestNull(String ho, String ten, String sdt, String mk, String mk2) {
-        Assertions.assertNull(Utils.Mess(ho,ten,sdt,mk,mk2));    
-    }
+    
     @ParameterizedTest
     @CsvFileSource(files = "src/main/resources/CSVFileTest/TestThongTinDangKy.csv", numLinesToSkip = 0)
     public void MessTestNotNull(String ho, String ten, String sdt, String mk, String mk2, String expected) {

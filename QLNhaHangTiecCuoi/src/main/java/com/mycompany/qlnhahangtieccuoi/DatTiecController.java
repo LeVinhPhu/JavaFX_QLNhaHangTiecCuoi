@@ -91,7 +91,6 @@ public class DatTiecController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO;
         InitCbGioThue();
-        this.dayParty.setValue(LocalDate.now());
         DayLimit();
         this.txtSoBan.setText("0");
         listFood = new ArrayList<>();
@@ -435,7 +434,10 @@ public class DatTiecController implements Initializable {
     private void DayLimit(){
         this.dayParty.setDayCellFactory(cf -> {
             DatePicker dayNow = new DatePicker();
-            dayNow.setValue(LocalDate.now()); 
+            String date = LocalDate.now().toString();
+            int d = 0, m = 0, y = 0;
+            dayNow.setValue(Utils.getNextWeek(date, d, m, y));
+            dayParty.setValue(Utils.getNextWeek(date, d, m, y));
             return new MinDateCell(dayNow.valueProperty());
         });
     }
